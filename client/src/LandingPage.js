@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
 
-function Budget() {
+function LandingPage() {
 
   return (
     <>
@@ -13,4 +13,4 @@ function Budget() {
   )
 }
 
-export default Budget;
+export default LandingPage;

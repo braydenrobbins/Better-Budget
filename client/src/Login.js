@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { Input, Form, Button, Icon, Checkbox, Row } from 'antd';
+import { Input, Form, Button, Icon, Row, notification } from 'antd';
 import { UserContext } from './contexts/UserContext';
 import { Redirect } from 'react-router-dom';
+import Config from './config/app.local.config';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -13,13 +14,23 @@ function Login() {
     authenticateUser();
   }
 
-  function authenticateUser() {
-    const budget = [];
-    //ask backend to login user
-    updateUser({ username, budget });
-    setLoggedIn(true);
+  async function authenticateUser() {
+    const user = { username, password };
+    fetch(`${Config.websiteServiceUrl}auth`, { method: "POST", body: JSON.stringify(user) })
+      .then(res => {
+        return res.json()
+      })
+      .then(verifiedUser => {
+        updateUser({ username, budget: verifiedUser.budgetArray });
+        setLoggedIn(true);
+      })
+      .catch(err => {
+        notification["error"]({
+          message: "Oh No! Something went wrong!",
+          description: `Sorry about that! We could not sign you in.`
+        });
+      });
   }
-
 
   return (
     <Form onSubmit={handleSubmit} className="login-form">
@@ -27,6 +38,7 @@ function Login() {
         <Input
           prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
           placeholder="Username"
+          onChange={e => setUsername(e)}
         />
       </Form.Item>
       <Form.Item>
@@ -34,6 +46,7 @@ function Login() {
           prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
           type="password"
           placeholder="Password"
+          onChange={e => setPassword(e)}
         />
       </Form.Item>
       <Form.Item>

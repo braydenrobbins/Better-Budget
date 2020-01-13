@@ -7,7 +7,7 @@ import "antd/dist/antd.css";
 import './styles/App.css';
 import UserContextProvider from "./contexts/UserContext";
 
-import Budget from './Budget';
+import LandingPage from './LandingPage';
 import Login from './Login';
 import UserPage from './UserPage';
 
@@ -23,7 +23,7 @@ function App() {
                 <h1><Icon type="profile" />Better Budget</h1>
               </Link>
             </Header>
-            <Route path="/" exact render={() => <Budget />} />
+            <Route path="/" exact render={() => <LandingPage />} />
             <Route path={`/:username`} exact render={() => <UserPage />} />
             <Route path="/login" exact render={() => <Login />} />
           </Layout>
