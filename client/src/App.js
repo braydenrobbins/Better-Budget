@@ -9,6 +9,7 @@ import UserContextProvider from "./contexts/UserContext";
 
 import Budget from './Budget';
 import Login from './Login';
+import UserPage from './UserPage';
 
 function App() {
   const { Header } = Layout;
@@ -23,6 +24,7 @@ function App() {
               </Link>
             </Header>
             <Route path="/" exact render={() => <Budget />} />
+            <Route path={`/:username`} exact render={() => <UserPage />} />
             <Route path="/login" exact render={() => <Login />} />
           </Layout>
         </UserContextProvider>

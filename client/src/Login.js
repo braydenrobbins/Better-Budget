@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Input, Form, Button, Icon, Checkbox, Row } from 'antd';
+import { UserContext } from './contexts/UserContext';
+import { Redirect } from 'react-router-dom';
 
 function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { user, updateUser } = useContext(UserContext);
+  const [loggedIn, setLoggedIn] = useState(false);
   function handleSubmit(e) {
     e.preventDefault();
+    authenticateUser();
   }
+
+  function authenticateUser() {
+    const budget = [];
+    //ask backend to login user
+    updateUser({ username, budget });
+    setLoggedIn(true);
+  }
+
+
   return (
     <Form onSubmit={handleSubmit} className="login-form">
       <Form.Item>
@@ -22,7 +38,6 @@ function Login() {
       </Form.Item>
       <Form.Item>
         <Row>
-          <Checkbox>Remember me</Checkbox>
           <a className="login-form-forgot" href="">
             Forgot password
           </a>
@@ -34,6 +49,9 @@ function Login() {
           Or <a href="">register now!</a>
         </Row>
       </Form.Item>
+      {
+        loggedIn ? <Redirect push to={`/${user.username}`} /> : ''
+      }
     </Form>
   )
 }
