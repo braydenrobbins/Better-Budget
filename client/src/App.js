@@ -10,6 +10,7 @@ import UserContextProvider from "./contexts/UserContext";
 import LandingPage from './LandingPage';
 import Login from './Login';
 import UserPage from './UserPage';
+import SignUp from './SignUp';
 
 function App() {
   const { Header } = Layout;
@@ -20,12 +21,16 @@ function App() {
           <Layout>
             <Header >
               <Link to="/">
-                <h1><Icon type="profile" />Better Budget</h1>
+                <Icon type="profile" />Better Budget
+              </Link>
+              <Link to="/login">
+                <Icon type="profile" />Login
               </Link>
             </Header>
             <Route path="/" exact render={() => <LandingPage />} />
-            <Route path={`/:username`} exact render={() => <UserPage />} />
+            <Route path={`/users/:username`} exact render={() => <UserPage />} />
             <Route path="/login" exact render={() => <Login />} />
+            <Route path="/signUp" exact render={() => <SignUp />} />
           </Layout>
         </UserContextProvider>
       </Router>

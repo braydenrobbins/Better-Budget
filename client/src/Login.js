@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Input, Form, Button, Icon, Row, notification } from 'antd';
 import { UserContext } from './contexts/UserContext';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Config from './config/app.local.config';
 
 function Login() {
@@ -15,13 +15,22 @@ function Login() {
   }
 
   async function authenticateUser() {
-    const user = { username, password };
-    fetch(`${Config.websiteServiceUrl}auth`, { method: "POST", body: JSON.stringify(user) })
+    const userInfo = { username, password };
+    fetch(`${Config.websiteServiceUrl}auth/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      accepts: "application/json",
+      body: JSON.stringify(userInfo)
+    })
       .then(res => {
+        if (!res.ok) {
+          throw Error(res.statusText);
+        }
         return res.json()
       })
-      .then(verifiedUser => {
-        updateUser({ username, budget: verifiedUser.budgetArray });
+      .then(authUser => {
+        localStorage.setItem("token", authUser.token);
+        updateUser({ username: authUser.username });
         setLoggedIn(true);
       })
       .catch(err => {
@@ -36,34 +45,31 @@ function Login() {
     <Form onSubmit={handleSubmit} className="login-form">
       <Form.Item>
         <Input
+          required
           prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
           placeholder="Username"
-          onChange={e => setUsername(e)}
+          onChange={e => setUsername(e.target.value)}
         />
       </Form.Item>
       <Form.Item>
         <Input
+          required
           prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
           type="password"
           placeholder="Password"
-          onChange={e => setPassword(e)}
+          onChange={e => setPassword(e.target.value)}
         />
       </Form.Item>
       <Form.Item>
-        <Row>
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-        </Row>
-        <Row>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button>
-          Or <a href="">register now!</a>
-        </Row>
+        <Button type="primary" htmlType="submit" className="login-form-button">
+          Log in
+        </Button>
+        <Link to='/signUp'>
+          <h1>register now!</h1>
+        </Link>
       </Form.Item>
       {
-        loggedIn ? <Redirect push to={`/${user.username}`} /> : ''
+        loggedIn ? <Redirect push to={`/users/${user.username}`} /> : ''
       }
     </Form>
   )

@@ -6,9 +6,7 @@ function LandingPage() {
 
   return (
     <>
-      <Link to="/login">
-        <h1><Icon type="profile" />Login</h1>
-      </Link>
+      <div className='landingPageBackground' />
     </>
   )
 }
