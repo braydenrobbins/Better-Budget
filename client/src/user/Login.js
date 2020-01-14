@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Input, Form, Button, Icon, Row, notification } from 'antd';
-import { UserContext } from './contexts/UserContext';
+import { UserContext } from '../contexts/UserContext';
 import { Redirect, Link } from 'react-router-dom';
-import Config from './config/app.local.config';
+import Config from '../config/app.local.config';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -64,9 +64,6 @@ function Login() {
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-        <Link to='/signUp'>
-          <h1>register now!</h1>
-        </Link>
       </Form.Item>
       {
         loggedIn ? <Redirect push to={`/users/${user.username}`} /> : ''

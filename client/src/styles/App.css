@@ -1,6 +1,69 @@
+/* prefixed by https://autoprefixer.github.io (PostCSS: v7.0.26, autoprefixer: v9.7.3) */
+
+/* 
+  Color Scheme Light to Dark
+  #FFFDD0
+  #FFFDE7
+  #0089BB
+  #0070A9
+  #0A4988
+*/
+
+a:hover {
+  color: #FFFDD0;
+}
+
+.banner {
+  color: #FFFDD0;
+}
+
 .App {
   text-align: center;
 }
 
+.ant-layout-header {
+  background-color: #0089BB;
+  color: #FFFDE7;
+  font-size: 3vh;
+  height: 100%;
+}
 
+.landingPageBackground {
+  height: 100vh;
+  width: 100vw;
+  background-color: #0089BB;
+}
 
+.navLink {
+  color: #0A4988;
+  font-size: 4vh;
+  margin: 1vh;
+}
+
+.hero {
+  position: absolute;
+  font-size: 7vh;
+  color: antiquewhite;
+  top: 100%;
+  width: 100%;
+  -webkit-animation: slide-in 600ms cubic-bezier(.41,.41,.35,1.15) forwards;
+          animation: slide-in 600ms cubic-bezier(.41,.41,.35,1.15) forwards;
+}
+
+@-webkit-keyframes slide-in {
+  0% {
+    top: 100%;
+  }
+  100% {
+    top: 25%;
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    top: 100%;
+  }
+  100% {
+    top: 25%;
+  }
+}

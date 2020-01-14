@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Form, Button, Icon, Row, notification } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
-import Config from './config/app.local.config';
+import Config from '../config/app.local.config';
 
 function SignUp() {
   const [username, setUsername] = useState('');
