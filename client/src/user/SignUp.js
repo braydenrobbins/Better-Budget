@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Input, Form, Button, Icon, Row, notification } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import Config from '../config/app.local.config';
+import NavBar from '../components/navBar';
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -48,56 +49,61 @@ function SignUp() {
   }
   return (
     <>
-      <h1>Sign Up</h1>
-      <Form onSubmit={handleSubmit} className="login-form">
-        <Form.Item>
-          <Input
-            required
-            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Username"
-            onChange={e => setUsername(e.target.value)}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            required
-            type="email"
-            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Email"
-            onChange={e => setEmail(e.target.value)}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            required
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            type="password"
-            placeholder="Password"
-            onChange={e => setPassword1(e.target.value)}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            required
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            type="password"
-            placeholder="Re-enter you password"
-            onChange={e => setPassword2(e.target.value)}
-          />
-          {
-            badPassword ? <h3>Your passwords did not match!</h3> : ''
-          }
+      <NavBar />
+      {userCreated ? <>
+        <h1>Thank you for signing up!</h1>
+        <h2><Link to='/login'>Log in here</Link></h2>
+      </> :
+        <>
+          <h1>Sign Up</h1>
+          <Form onSubmit={handleSubmit} className="login-form">
+            <Form.Item>
+              <Input
+                required
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="Username"
+                onChange={e => setUsername(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Input
+                required
+                type="email"
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="Email"
+                onChange={e => setEmail(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Input
+                required
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                type="password"
+                placeholder="Password"
+                onChange={e => setPassword1(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Input
+                required
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                type="password"
+                placeholder="Re-enter you password"
+                onChange={e => setPassword2(e.target.value)}
+              />
+              {
+                badPassword ? <h3>Your passwords did not match!</h3> : ''
+              }
 
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Sign Up!
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className="login-form-button">
+                Sign Up!
           </Button>
-        </Form.Item>
-        {
-          userCreated ? <Redirect push to='/' /> : ''
-        }
-      </Form>
+            </Form.Item>
+          </Form>
+        </>
+      }
     </>
   )
 }

@@ -3,6 +3,7 @@ import { Input, Form, Button, Icon, Row, notification } from 'antd';
 import { UserContext } from '../contexts/UserContext';
 import { Redirect, Link } from 'react-router-dom';
 import Config from '../config/app.local.config';
+import NavBar from '../components/navBar';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -42,33 +43,37 @@ function Login() {
   }
 
   return (
-    <Form onSubmit={handleSubmit} className="login-form">
-      <Form.Item>
-        <Input
-          required
-          prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-          placeholder="Username"
-          onChange={e => setUsername(e.target.value)}
-        />
-      </Form.Item>
-      <Form.Item>
-        <Input
-          required
-          prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-          type="password"
-          placeholder="Password"
-          onChange={e => setPassword(e.target.value)}
-        />
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
+    <>
+      <NavBar />
+      <h1>Login</h1>
+      <Form onSubmit={handleSubmit} className="login-form">
+        <Form.Item>
+          <Input
+            required
+            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="Username"
+            onChange={e => setUsername(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Input
+            required
+            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            type="password"
+            placeholder="Password"
+            onChange={e => setPassword(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" className="login-form-button">
+            Start Saving
         </Button>
-      </Form.Item>
-      {
-        loggedIn ? <Redirect push to={`/users/${user.username}`} /> : ''
-      }
-    </Form>
+        </Form.Item>
+        {
+          loggedIn ? <Redirect push to={`/users/${user.username}`} /> : ''
+        }
+      </Form>
+    </>
   )
 }
 

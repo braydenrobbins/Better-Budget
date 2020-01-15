@@ -7,35 +7,98 @@
   #0089BB
   #0070A9
   #0A4988
+  #003447
 */
 
 a:hover {
   color: #FFFDD0;
 }
 
-.banner {
+.btn-toggle-nav:hover {
+  opacity: 0.7;
+}
+
+.nav-bar {
+  height: 7vh;
+  display: flex;
+  background-color: #003447;
+  line-height: 7vh;
+  z-index: 998;
+  margin-bottom: 3vw;
+}
+
+.nav-bar h1 {
+  margin-left: 1vw;
+}
+
+.nav-main {
+  left: 100%;
+  position: fixed;
+  top: 0;
+  width: 20vw;
+  height: 100vh;
+  background-color: #0089BB;
+  z-index: 999;
+}
+
+.nav-main h1 {
+  margin-left: 80%;
+  z-index: 1000;
+  cursor: pointer;
+  line-height: 7vh;
+  font-size: calc(12px + 2vh);
+}
+
+.nav-main h1:hover {
+  opacity: 0.7;
+}
+
+.nav-Visible{
+  animation: nav-slide-in 200ms ease-in-out forwards;
+}
+
+.nav-main ul li {
+  list-style: none;
+  line-height: 60px;
+}
+
+.nav-main ul a{
+  height: 7vh;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: calc(12px + 2vh);
+  white-space: nowrap;
+  color: #003447;
+  margin-right: 10%;
+}
+
+.btn-toggle-nav {
+  margin-left: auto;
+  width: 7vh;
+  height: 60px;
+  background-image: url("../hamburger-icon.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  cursor: pointer;
+}
+
+h1, h2 {
   color: #FFFDD0;
+  text-shadow: 2px 2px black;
 }
 
 .App {
   text-align: center;
-}
-
-.ant-layout-header {
-  background-color: #0089BB;
-  color: #FFFDE7;
-  font-size: 3vh;
-  height: 100%;
-}
-
-.landingPageBackground {
+  background-image: linear-gradient(to bottom right, #003447, #0070A9);
   height: 100vh;
   width: 100vw;
-  background-color: #0089BB;
 }
 
-.navLink {
-  color: #0A4988;
+
+
+.landingLink {
+  color: #0089BB;
   font-size: 4vh;
   margin: 1vh;
 }
@@ -43,14 +106,14 @@ a:hover {
 .hero {
   position: absolute;
   font-size: 7vh;
-  color: antiquewhite;
+  color: #FFFDD0;
   top: 100%;
   width: 100%;
-  -webkit-animation: slide-in 600ms cubic-bezier(.41,.41,.35,1.15) forwards;
-          animation: slide-in 600ms cubic-bezier(.41,.41,.35,1.15) forwards;
+  -webkit-animation: landing-page-slide-in 600ms cubic-bezier(.41,.41,.35,1.15) forwards;
+          animation: landing-page-slide-in 600ms cubic-bezier(.41,.41,.35,1.15) forwards;
 }
 
-@-webkit-keyframes slide-in {
+@-webkit-keyframes landing-page-slide-in {
   0% {
     top: 100%;
   }
@@ -59,11 +122,20 @@ a:hover {
   }
 }
 
-@keyframes slide-in {
+@keyframes landing-page-slide-in {
   0% {
     top: 100%;
   }
   100% {
     top: 25%;
+  }
+}
+
+@keyframes nav-slide-in {
+  0% {
+    left: 100vw;
+  }
+  100% {
+    left: 80vw;
   }
 }

@@ -9,10 +9,10 @@ function LandingPage() {
       <div className='landingPageBackground'>
         <div className='hero'>
           <h2 className='banner'>Better Budget</h2>
-          <Link to='/login' className='navLink'>
+          <Link to='/login' className='landingLink'>
             Login
           </Link>
-          <Link to='/signUp' className='navLink'>
+          <Link to='/signUp' className='landingLink'>
             Sign Up
           </Link>
         </div>
