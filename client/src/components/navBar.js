@@ -1,22 +1,25 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
+import { NavContext } from '../contexts/NavContext';
 import { isEmpty } from 'lodash';
+import OutsideAlerter from "../components/OutsideAlerter";
 
 function NavBar() {
-  const [navVis, setNavVis] = useState(false);
+  // const [navVis, setNavVis] = useState(false);
   const { user, updateUser } = useContext(UserContext);
+  const { toggleNav, navVis } = useContext(NavContext);
 
   function logoutUser() {
     updateUser('');
   }
 
-  function toggleNav() {
-    navVis ? setNavVis(false) : setNavVis(true);
-  }
+  // function toggleNav() {
+  //   navVis ? setNavVis(false) : setNavVis(true);
+  // }
 
   return (
-    <>
+    <OutsideAlerter>
       {!isEmpty(user) ?
         <>
           <div className='nav-bar'>
@@ -49,7 +52,7 @@ function NavBar() {
           </div>
         </>
       }
-    </>
+    </OutsideAlerter>
   )
 }
 

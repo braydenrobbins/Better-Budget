@@ -10,17 +10,20 @@ import LandingPage from './pages/LandingPage';
 import Login from './user/Login';
 import UserPage from './user/UserPage';
 import SignUp from './user/SignUp';
+import NavContextProvider from './contexts/NavContext';
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <UserContextProvider>
-          <Route path="/" exact render={() => <LandingPage />} />
-          <Route path={`/users/:username`} exact render={() => <UserPage />} />
-          <Route path="/login" exact render={() => <Login />} />
-          <Route path="/signUp" exact render={() => <SignUp />} />
-        </UserContextProvider>
+        <NavContextProvider>
+          <UserContextProvider>
+            <Route path="/" exact render={() => <LandingPage />} />
+            <Route path={`/users/:username`} exact render={() => <UserPage />} />
+            <Route path="/login" exact render={() => <Login />} />
+            <Route path="/signUp" exact render={() => <SignUp />} />
+          </UserContextProvider>
+        </NavContextProvider>
       </Router>
     </div>
   );
