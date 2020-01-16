@@ -8,9 +8,10 @@ import UserContextProvider from "./contexts/UserContext";
 
 import LandingPage from './pages/LandingPage';
 import Login from './user/Login';
-import UserPage from './user/UserPage';
+import Profile from './pages/Profile';
 import SignUp from './user/SignUp';
 import NavContextProvider from './contexts/NavContext';
+import Budget from './pages/Budget';
 
 function App() {
   return (
@@ -19,9 +20,10 @@ function App() {
         <NavContextProvider>
           <UserContextProvider>
             <Route path="/" exact render={() => <LandingPage />} />
-            <Route path={`/users/:username`} exact render={() => <UserPage />} />
+            <Route path={`/users/:username`} exact render={() => <Profile />} />
             <Route path="/login" exact render={() => <Login />} />
             <Route path="/signUp" exact render={() => <SignUp />} />
+            <Route path={`/users/:username/budget`} exact render={() => <Budget />} />
           </UserContextProvider>
         </NavContextProvider>
       </Router>

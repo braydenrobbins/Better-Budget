@@ -1,15 +1,18 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import NavBar from '../components/navBar';
+import { Card } from 'antd';
 
-function UserPage() {
+function Budget() {
   const { user, updateUser } = useContext(UserContext);
   return (
     <>
       <NavBar />
-      <h1>{user.username}</h1>
+      <div className='main-content'>
+        <h1>Your Budget</h1>
+      </div>
     </>
   )
 }
 
-export default UserPage;
+export default Budget;

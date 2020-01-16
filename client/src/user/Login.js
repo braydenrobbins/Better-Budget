@@ -70,7 +70,7 @@ function Login() {
         </Button>
         </Form.Item>
         {
-          loggedIn ? <Redirect push to={`/users/${user.username}`} /> : ''
+          loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''
         }
       </Form>
     </>

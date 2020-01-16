@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://brayden:Blackj%40ck98@cluster0-rxl8n.mongodb.net/test?retryWrites=true&w=majority",
+  "mongoURI": "mongodb://localhost:27017/BetterBudget",
   "jwtSecret": "secret"
 }

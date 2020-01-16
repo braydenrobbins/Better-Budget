@@ -25,10 +25,10 @@ function NavBar() {
           <div className={`nav-main ${navVis ? 'nav-Visible' : ''}`}>
             <h1 onClick={toggleNav}>X</h1>
             <ul>
-              <li><Link to={`/users/${user.username}`}>Profile</Link></li>
-              <li><Link to={`/users/${user.username}/budget`}>Budget</Link></li>
-              <li><Link to={`/users/${user.username}/transactions`}>Transactions</Link></li>
-              <li onClick={() => logoutUser()}><Link to="/" >Logout</Link></li>
+              <li onClick={() => toggleNav()}><Link to={`/users/${user.username}/budget`}>Budget</Link></li>
+              <li onClick={() => toggleNav()}><Link to={`/users/${user.username}`}>Profile</Link></li>
+              <li onClick={() => toggleNav()}><Link to={`/users/${user.username}/transactions`}>Transactions</Link></li>
+              <li onClick={() => { logoutUser(); toggleNav() }}><Link to="/" >Logout</Link></li>
             </ul>
           </div>
         </> :
@@ -40,10 +40,10 @@ function NavBar() {
           <div className={`nav-main ${navVis ? 'nav-Visible' : ''}`}>
             <h1 onClick={toggleNav}>X</h1>
             <ul>
-              <li><Link to="/" onClick={() => updateNavVis(false)}>Home</Link></li>
-              <li><Link to="/">Why Budget?</Link></li>
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/signUp">Sign Up</Link></li>
+              <li onClick={() => toggleNav()}><Link to="/">Home</Link></li>
+              <li onClick={() => toggleNav()}><Link to="/">Why Budget?</Link></li>
+              <li onClick={() => toggleNav()}><Link to="/login">Login</Link></li>
+              <li onClick={() => toggleNav()}><Link to="/signUp">Sign Up</Link></li>
             </ul>
           </div>
         </>

@@ -28,6 +28,7 @@ app.use(express.json({ extended: false }));
 
 app.use("/api/users", require("./routes/users"));
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/budget", require("./routes/budget"));
 
 const PORT = process.env.PORT || 5000;
 
