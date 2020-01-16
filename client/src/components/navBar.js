@@ -8,15 +8,11 @@ import OutsideAlerter from "../components/OutsideAlerter";
 function NavBar() {
   // const [navVis, setNavVis] = useState(false);
   const { user, updateUser } = useContext(UserContext);
-  const { toggleNav, navVis } = useContext(NavContext);
+  const { toggleNav, navVis, updateNavVis } = useContext(NavContext);
 
   function logoutUser() {
     updateUser('');
   }
-
-  // function toggleNav() {
-  //   navVis ? setNavVis(false) : setNavVis(true);
-  // }
 
   return (
     <OutsideAlerter>
@@ -44,7 +40,7 @@ function NavBar() {
           <div className={`nav-main ${navVis ? 'nav-Visible' : ''}`}>
             <h1 onClick={toggleNav}>X</h1>
             <ul>
-              <li><Link to="/">Home</Link></li>
+              <li><Link to="/" onClick={() => updateNavVis(false)}>Home</Link></li>
               <li><Link to="/">Why Budget?</Link></li>
               <li><Link to="/login">Login</Link></li>
               <li><Link to="/signUp">Sign Up</Link></li>

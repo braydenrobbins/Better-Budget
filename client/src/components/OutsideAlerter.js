@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { NavContext } from '../contexts/NavContext';
 
 function useOutsideAlerter(ref) {
-  const { toggleNav } = useContext(NavContext);
+  const { toggleNav, navVis } = useContext(NavContext);
   /**
-   * Alert if clicked on outside of element
+   * Close Nav if clicked on outside of element
    */
   function handleClickOutside(event) {
-    if (ref.current && !ref.current.contains(event.target)) {
+    if (ref.current && !ref.current.contains(event.target) && navVis) {
       toggleNav();
     }
   }

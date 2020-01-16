@@ -9,8 +9,12 @@ function NavContextProvider(props) {
     navVis ? setNavVis(false) : setNavVis(true);
   }
 
+  function updateNavVis(updatedNavVis) {
+    setNavVis(updatedNavVis);
+  }
+
   return (
-    <NavContext.Provider value={{ toggleNav, navVis }}>
+    <NavContext.Provider value={{ toggleNav, navVis, updateNavVis }}>
       {props.children}
     </NavContext.Provider>
   );
