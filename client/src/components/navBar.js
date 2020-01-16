@@ -25,8 +25,9 @@ function NavBar() {
           <div className={`nav-main ${navVis ? 'nav-Visible' : ''}`}>
             <h1 onClick={toggleNav}>X</h1>
             <ul>
-              <li onClick={() => toggleNav()}><Link to={`/users/${user.username}/budget`}>Budget</Link></li>
               <li onClick={() => toggleNav()}><Link to={`/users/${user.username}`}>Profile</Link></li>
+              <li onClick={() => toggleNav()}><Link to={`/users/${user.username}/budget`}>Budgets</Link></li>
+              <li onClick={() => toggleNav()}><Link to={`/users/${user.username}/newBudget`}>New Budget</Link></li>
               <li onClick={() => toggleNav()}><Link to={`/users/${user.username}/transactions`}>Transactions</Link></li>
               <li onClick={() => { logoutUser(); toggleNav() }}><Link to="/" >Logout</Link></li>
             </ul>
