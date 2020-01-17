@@ -10,6 +10,11 @@
   #003447
 */
 
+.styled-form {
+  width: 80%;
+  margin: auto;
+}
+
 a:hover {
   color: #FFFDD0;
 }

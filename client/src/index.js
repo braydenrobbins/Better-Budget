@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import SignUp from './user/SignUp';
 import NavContextProvider from './contexts/NavContext';
 import Budget from './pages/Budget';
+import NewBudget from './pages/newBudget';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/login" exact render={() => <Login />} />
             <Route path="/signUp" exact render={() => <SignUp />} />
             <Route path={`/users/:username/budget`} exact render={() => <Budget />} />
+            <Route path={`/users/:username/newBudget`} exact render={() => <NewBudget />} />
           </UserContextProvider>
         </NavContextProvider>
       </Router>

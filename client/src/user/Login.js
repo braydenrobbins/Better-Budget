@@ -45,34 +45,34 @@ function Login() {
   return (
     <>
       <NavBar />
-      <h1>Login</h1>
-      <Form onSubmit={handleSubmit} className="login-form">
-        <Form.Item>
-          <Input
-            required
-            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Username"
-            onChange={e => setUsername(e.target.value)}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
-            required
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            type="password"
-            placeholder="Password"
-            onChange={e => setPassword(e.target.value)}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+      <div className='main-content'>
+        <h1>Login</h1>
+        <Form onSubmit={handleSubmit} className="login-form">
+          <Form.Item>
+            <Input
+              required
+              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Username"
+              onChange={e => setUsername(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Input
+              required
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="password"
+              placeholder="Password"
+              onChange={e => setPassword(e.target.value)}
+            />
+          </Form.Item>
+          <Button htmlType="submit" className="login-form-button">
             Start Saving
-        </Button>
-        </Form.Item>
-        {
-          loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''
-        }
-      </Form>
+            </Button>
+          {
+            loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''
+          }
+        </Form>
+      </div>
     </>
   )
 }
