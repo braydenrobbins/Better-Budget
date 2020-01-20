@@ -10,7 +10,6 @@ function Budget() {
 
   const user = {
     name: 'test',
-    password: 'test',
     email: 'brayden.robbins@ruralsourcing.com',
     transactions: [
       {
@@ -36,7 +35,6 @@ function Budget() {
     ]
   }
   const currentMonth = user.budgets[budgetSelected].month === moment().format('MMMM YYYY');
-  console.log(currentMonth);
 
   function previousMonth() {
     setBudgetSelected(budgetSelected + 1);

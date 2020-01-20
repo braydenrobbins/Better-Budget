@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Input, Button, Tooltip, Icon, DatePicker, InputNumber, message, notification, Tag } from 'antd';
 import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
+import { UserContext } from '../contexts/UserContext';
 
 function NewBudget() {
+  const { user, updateUser, token } = useContext(UserContext);
+
   const { MonthPicker } = DatePicker;
   const [month, setMonth] = useState();
   const [totalExpenditure, setTotalExpenditure] = useState('');
@@ -34,11 +37,11 @@ function NewBudget() {
   function submitBudget() {
     const categoryArray = tags.map(t => eval(`({${t}})`));
     const newBudget = { month, totalExpenditure, categoryArray };
-    console.log(newBudget);
     fetch(`${Config.websiteServiceUrl}budget`, {
       method: `POST`,
       headers: {
-        "Content-Type": "application/JSON"
+        "Content-Type": "application/JSON",
+        "x-auth-token": token
       },
       body: JSON.stringify(newBudget)
     })

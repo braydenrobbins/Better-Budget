@@ -5,6 +5,14 @@ const BudgetSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  totalExpenditure: {
+    type: Number,
+    required: true
+  },
+  categoryArray: {
+    type: [],
+    required: true
+  },
   date: {
     type: Date,
     default: Date.now

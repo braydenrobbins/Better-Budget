@@ -4,13 +4,18 @@ export const UserContext = createContext();
 
 const UserContextProvider = props => {
   const [user, setUser] = useState('');
+  const [token, setToken] = useState('');
 
-  function updateUser(UpdatedUser) {
-    setUser(UpdatedUser);
+  function updateUser(updatedUser) {
+    setUser(updatedUser);
+  }
+
+  function updateToken(updatedToken) {
+    setToken(updatedToken);
   }
 
   return (
-    <UserContext.Provider value={{ user, updateUser }}>
+    <UserContext.Provider value={{ user, updateUser, token, updateToken }}>
       {props.children}
     </UserContext.Provider>
   );

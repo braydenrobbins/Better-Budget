@@ -4,12 +4,13 @@ import NavBar from '../components/navBar';
 import { Card } from 'antd';
 
 function Profile() {
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUser, token } = useContext(UserContext);
   return (
     <>
       <NavBar />
       <div className='main-content'>
         <h1>{user.username}</h1>
+        <h2>{token}</h2>
       </div>
     </>
   )
