@@ -6,7 +6,6 @@ import { UserContext } from '../contexts/UserContext';
 
 function NewBudget() {
   const { user, updateUser, token } = useContext(UserContext);
-
   const { MonthPicker } = DatePicker;
   const [month, setMonth] = useState();
   const [totalExpenditure, setTotalExpenditure] = useState('');
@@ -36,7 +35,8 @@ function NewBudget() {
 
   function submitBudget() {
     const categoryArray = tags.map(t => eval(`({${t}})`));
-    const newBudget = { month, totalExpenditure, categoryArray };
+    const newBudget = { username: user.username, month, totalExpenditure, categoryArray };
+    console.log(newBudget);
     fetch(`${Config.websiteServiceUrl}budget`, {
       method: `POST`,
       headers: {
@@ -47,7 +47,7 @@ function NewBudget() {
     })
       .then(res => {
         if (!res.ok) {
-          throw Error(res.statusText);
+          throw Error(res.msg);
         }
         message.success('Your helicopter was saved!');
         clearFields();

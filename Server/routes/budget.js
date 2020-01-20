@@ -24,14 +24,14 @@ router.post("/",
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { month, totalExpenditure, categoryArray } = req.body;
+    const { username, month, totalExpenditure, categoryArray } = req.body;
 
     try {
-      let budget = await Budget.findOne({ month });
+      let budget = await Budget.findOne({ username, month });
       if (budget)
-        res.status(400).json({ msg: "There is already a budget for that month" });
+        return res.status(400).json({ msg: "There is already a budget for that month" });
 
-      budget = new Budget({ month, totalExpenditure, categoryArray });
+      budget = new Budget({ username, month, totalExpenditure, categoryArray });
 
       await budget.save();
     } catch (err) {
