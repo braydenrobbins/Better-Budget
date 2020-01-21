@@ -30,8 +30,9 @@ function Login() {
         return res.json()
       })
       .then(authUser => {
+        console.log(authUser);
         updateToken(authUser.token);
-        updateUser({ username: authUser.username });
+        updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
         setLoggedIn(true);
       })
       .catch(err => {

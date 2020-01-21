@@ -15,8 +15,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  transactions: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
-  budgets: [{ type: Schema.Types.ObjectId, ref: 'Budget' }],
+  budgets: [],
   date: {
     type: Date,
     default: Date.now

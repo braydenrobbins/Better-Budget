@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Form, Input, Button, Tooltip, Icon, DatePicker, InputNumber, message, notification, Tag } from 'antd';
 import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
@@ -12,17 +12,31 @@ function NewBudget() {
   const [category, setCategory] = useState('');
   const [categoryExpense, setCategoryExpense] = useState('');
   const [tags, setTags] = useState([]);
+  const [categoryDB, setCategoryDB] = useState({});
+  const categoryObj = {}
+
+  useEffect(() => {
+    console.log(category);
+  });
+
 
   function clearFields() {
     setMonth('');
     setTotalExpenditure('');
     setCategory('');
     setCategoryExpense('');
-    setTags('');
+    // setTags('');
   }
 
   function addCategory() {
+    // const merge = (...objects) => ({ ...objects });
+
     const categoryString = ` ${category}: ${categoryExpense} `;
+    categoryObj[category] = categoryExpense;
+    console.log(categoryObj)
+    // const mergedObj = merge(categoryObj, categoryDB);
+    // console.log(mergedObj);
+    // setCategoryDB({ ...categoryObj })
     setTags([...tags, categoryString]);
     setCategory('');
     setCategoryExpense('');
@@ -32,24 +46,47 @@ function NewBudget() {
     const updatedTags = tags.filter(tag => tag !== removedTag);
     setTags(updatedTags);
   }
-
+  // ==============================================
+  // function getValue() {
+  //   const categoryArray = tags.map(t => eval(`({${t}})`));
+  //   categoryArray.map(categoryObj => {
+  //     const x = Object.keys(categoryObj)
+  //     const value = categoryObj[x]
+  //     console.log(value);
+  //   });
+  // }
+  //===============================================
   function submitBudget() {
-    const categoryArray = tags.map(t => eval(`({${t}})`));
-    const newBudget = { username: user.username, month, totalExpenditure, categoryArray };
-    console.log(newBudget);
+
+    const updatedUser = {
+      _id: user._id,
+      username: user.username,
+      budgets: [
+        ...user.budgets,
+        {
+          month,
+          totalExpenditure,
+          // categories: categoryDB,
+          transactions: [
+            user.transactions
+          ]
+        }
+      ]
+    };
     fetch(`${Config.websiteServiceUrl}budget`, {
-      method: `POST`,
+      method: `PATCH`,
       headers: {
         "Content-Type": "application/JSON",
         "x-auth-token": token
       },
-      body: JSON.stringify(newBudget)
+      body: JSON.stringify(updatedUser)
     })
       .then(res => {
         if (!res.ok) {
           throw Error(res.msg);
         }
-        message.success('Your helicopter was saved!');
+        // updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
+        message.success('Your new budget was added');
         clearFields();
       })
       .catch(err => {

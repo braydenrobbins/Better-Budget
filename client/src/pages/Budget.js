@@ -11,18 +11,19 @@ function Budget() {
   const user = {
     name: 'test',
     email: 'brayden.robbins@ruralsourcing.com',
-    transactions: [
-      {
-        amount: 8.98,
-        merchant: 'Chick-Fil-A',
-        category: 'Food',
-        date: Date
-      }
-    ],
+    password: 'test',
     budgets: [
       {
         month: 'January 2020',
-        categories: { 'Food': 500, 'Rent': 750, 'Car Insurance': 378 }
+        categories: { 'Food': 500, 'Rent': 750, 'Car Insurance': 378 },
+        transactions: [
+          {
+            amount: 8.98,
+            merchant: 'Chick-Fil-A',
+            category: 'Food',
+            date: '2020 01'
+          }
+        ],
       },
       {
         month: 'December 2019',

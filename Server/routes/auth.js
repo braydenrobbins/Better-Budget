@@ -7,7 +7,6 @@ const auth = require("../middleware/auth");
 const { check, validationResult } = require("express-validator");
 
 const User = require("../models/User");
-const Budget = require("../models/Budget");
 
 // @route  GET api/auth
 // @desc   Get logged in user
@@ -15,8 +14,6 @@ const Budget = require("../models/Budget");
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
-    let userBudgets = await Budget.find({ username: user.username });
-    let userTransactions = await Transactions.find({ username: user.username });
     res.json(user);
   } catch (err) {
     console.error(err.message);
@@ -39,6 +36,7 @@ router.post(
 
     try {
       let user = await User.findOne({ username });
+
       if (!user) {
         return res.status(400).json({ msg: "invalid credentials" });
       }
@@ -50,7 +48,7 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id
+          _id: user._id
         }
       };
 
@@ -64,10 +62,11 @@ router.post(
           if (err) throw err;
 
           res.json({
+            _id: user._id,
             token,
-            username,
-            userBudgets,
-            userTransactions
+            username: user.username,
+            budgets: user.budgets,
+            email: user.email
           });
         }
       );
