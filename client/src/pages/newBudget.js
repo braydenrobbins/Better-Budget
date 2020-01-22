@@ -3,6 +3,7 @@ import { Form, Input, Button, Tooltip, Icon, DatePicker, InputNumber, message, n
 import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
 import { UserContext } from '../contexts/UserContext';
+import { generateShowHourMinuteSecond } from 'antd/lib/time-picker';
 
 function NewBudget() {
   const { user, updateUser, token } = useContext(UserContext);
@@ -13,12 +14,6 @@ function NewBudget() {
   const [categoryExpense, setCategoryExpense] = useState('');
   const [tags, setTags] = useState([]);
   const [categoryDB, setCategoryDB] = useState({});
-  const categoryObj = {}
-
-  useEffect(() => {
-    console.log(category);
-  });
-
 
   function clearFields() {
     setMonth('');
@@ -29,14 +24,11 @@ function NewBudget() {
   }
 
   function addCategory() {
-    // const merge = (...objects) => ({ ...objects });
+    const categoryObj = { ...categoryDB };
+    categoryObj[category] = categoryExpense;
+    setCategoryDB(categoryObj);
 
     const categoryString = ` ${category}: ${categoryExpense} `;
-    categoryObj[category] = categoryExpense;
-    console.log(categoryObj)
-    // const mergedObj = merge(categoryObj, categoryDB);
-    // console.log(mergedObj);
-    // setCategoryDB({ ...categoryObj })
     setTags([...tags, categoryString]);
     setCategory('');
     setCategoryExpense('');
@@ -48,16 +40,15 @@ function NewBudget() {
   }
   // ==============================================
   // function getValue() {
-  //   const categoryArray = tags.map(t => eval(`({${t}})`));
-  //   categoryArray.map(categoryObj => {
-  //     const x = Object.keys(categoryObj)
-  //     const value = categoryObj[x]
-  //     console.log(value);
+  //   const categories = Object.keys(categoryObj)
+  //   const values = categories.map(category => {
+  //       categoryObj.[category]
+  //   })
+  //   console.log(values);
   //   });
   // }
   //===============================================
   function submitBudget() {
-
     const updatedUser = {
       _id: user._id,
       username: user.username,
@@ -66,7 +57,7 @@ function NewBudget() {
         {
           month,
           totalExpenditure,
-          // categories: categoryDB,
+          categories: categoryDB,
           transactions: [
             user.transactions
           ]
