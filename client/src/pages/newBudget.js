@@ -3,7 +3,7 @@ import { Form, Input, Button, Tooltip, Icon, DatePicker, InputNumber, message, n
 import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
 import { UserContext } from '../contexts/UserContext';
-import { generateShowHourMinuteSecond } from 'antd/lib/time-picker';
+import moment from 'moment';
 
 function NewBudget() {
   const { user, updateUser, token } = useContext(UserContext);
@@ -16,11 +16,11 @@ function NewBudget() {
   const [categoryDB, setCategoryDB] = useState({});
 
   function clearFields() {
-    setMonth('');
+    setMonth(moment(''));
     setTotalExpenditure('');
     setCategory('');
     setCategoryExpense('');
-    // setTags('');
+    setTags([]);
   }
 
   function addCategory() {
@@ -49,21 +49,23 @@ function NewBudget() {
   // }
   //===============================================
   function submitBudget() {
+    const budgets = [...user.budgets,
+    {
+      month,
+      totalExpenditure,
+      categories: categoryDB,
+      transactions: [
+        user.transactions
+      ]
+    }
+    ]
+
     const updatedUser = {
       _id: user._id,
       username: user.username,
-      budgets: [
-        ...user.budgets,
-        {
-          month,
-          totalExpenditure,
-          categories: categoryDB,
-          transactions: [
-            user.transactions
-          ]
-        }
-      ]
+      budgets
     };
+
     fetch(`${Config.websiteServiceUrl}budget`, {
       method: `PATCH`,
       headers: {
@@ -112,7 +114,7 @@ function NewBudget() {
                 </Tooltip>
               </span>}
           >
-            <MonthPicker style={{ width: '100%' }} placeholder="Select month" onChange={monthChange} />
+            <MonthPicker style={{ width: '100%' }} format='MMMM-YYYY' placeholder="Select month" onChange={monthChange} clearFields={true} />
           </Form.Item>
           <Form.Item
             label={

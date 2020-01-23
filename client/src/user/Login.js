@@ -19,7 +19,11 @@ function Login() {
     const userInfo = { username, password };
     fetch(`${Config.websiteServiceUrl}auth/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        'Access-Control-Allow-Credentials': 'true'
+      },
       accepts: "application/json",
       body: JSON.stringify(userInfo)
     })
@@ -27,10 +31,10 @@ function Login() {
         if (!res.ok) {
           throw Error(res.statusText);
         }
-        return res.json()
+        return res.json();
       })
       .then(authUser => {
-        console.log(authUser);
+        localStorage.setItem('uID', authUser._id);
         updateToken(authUser.token);
         updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
         setLoggedIn(true);
@@ -69,9 +73,7 @@ function Login() {
           <Button htmlType="submit" className="login-form-button">
             Start Saving
             </Button>
-          {
-            loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''
-          }
+          {loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''}
         </Form>
       </div>
     </>
