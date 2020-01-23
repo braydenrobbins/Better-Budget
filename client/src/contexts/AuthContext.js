@@ -13,7 +13,14 @@ const AuthContextProvider = props => {
     const _id = localStorage.getItem('uID');
     fetch(`${Config.websiteServiceUrl}auth/refresh/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
+        'Access-Control-Allow-Origin': 'http://localhost:4000',
+        'Access-Control-Allow-Headers': 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+      },
       accepts: "application/json",
       body: JSON.stringify({ _id })
     })
