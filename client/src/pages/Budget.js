@@ -2,13 +2,12 @@ import React, { useState, useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import NavBar from '../components/navBar';
 import { Progress, List, Button } from 'antd';
-import moment from 'moment';
 
 function Budget() {
-  const { user, updateUser } = useContext(UserContext);
-  const [budgetSelected, setBudgetSelected] = useState(0);
-  const currentMonth = user.budgets[budgetSelected].month
-  const lastMonth = user.budgets.length;
+  const { user } = useContext(UserContext);
+  const [budgetSelected, setBudgetSelected] = useState(0 || '');
+  // const currentMonth = user.budgets[budgetSelected].month
+  // const lastMonth = user.budgets.length;
 
   function previousMonth() {
     setBudgetSelected(budgetSelected + 1);
@@ -36,7 +35,7 @@ function Budget() {
         />
         <h2>{user.budgets[budgetSelected].month}</h2>
         <Button onClick={() => previousMonth()}>Previous Month</Button>
-        <Button disabled={lastMonth} onClick={() => nextMonth()}>Next Month</Button>
+        <Button disabled={true} onClick={() => nextMonth()}>Next Month</Button>
         <List
           grid={{ column: 3 }}
           bordered={true}

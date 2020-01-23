@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { Input, Form, Button, Icon, Row, notification } from 'antd';
+import { Input, Form, Button, Icon, notification } from 'antd';
 import { UserContext } from '../contexts/UserContext';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Config from '../config/app.local.config';
 import NavBar from '../components/navBar';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { user, updateUser, updateToken, token } = useContext(UserContext);
+  const { user, updateUser, updateToken } = useContext(UserContext);
   const [loggedIn, setLoggedIn] = useState(false);
   function handleSubmit(e) {
     e.preventDefault();
@@ -19,10 +19,8 @@ function Login() {
     const userInfo = { username, password };
     fetch(`${Config.websiteServiceUrl}auth/`, {
       method: "POST",
-      credentials: "include",
       headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        'Access-Control-Allow-Credentials': 'true'
+        "Content-Type": "application/json;charset=UTF-8"
       },
       accepts: "application/json",
       body: JSON.stringify(userInfo)
@@ -73,7 +71,7 @@ function Login() {
           <Button htmlType="submit" className="login-form-button">
             Start Saving
             </Button>
-          {loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''}
+          {loggedIn ? <Redirect push to={`/users/${user.username}/newBudget`} /> : ''}
         </Form>
       </div>
     </>

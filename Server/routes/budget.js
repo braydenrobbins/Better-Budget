@@ -4,7 +4,7 @@ const auth = require("../middleware/auth");
 
 const User = require("../models/User");
 
-router.patch('/', auth, function (req, res, next) {
+router.patch('/', function (req, res, next) {
   const record = req.body;
   const { budgets } = record;
   const month = budgets.month

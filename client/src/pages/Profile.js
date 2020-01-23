@@ -1,10 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import NavBar from '../components/navBar';
-import { Card } from 'antd';
 
 function Profile() {
-  const { user, updateUser, token } = useContext(UserContext);
+  const { user, token } = useContext(UserContext);
   return (
     <>
       <NavBar />

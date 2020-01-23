@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { NavContext } from '../contexts/NavContext';
@@ -8,7 +8,7 @@ import OutsideAlerter from "../components/OutsideAlerter";
 function NavBar() {
   // const [navVis, setNavVis] = useState(false);
   const { user, updateUser } = useContext(UserContext);
-  const { toggleNav, navVis, updateNavVis } = useContext(NavContext);
+  const { toggleNav, navVis } = useContext(NavContext);
 
   function logoutUser() {
     updateUser('');

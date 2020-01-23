@@ -44,7 +44,7 @@ const UserContextProvider = props => {
   }
 
   return (
-    <UserContext.Provider value={{ user, updateUser, token, updateToken, refresh }}>
+    <UserContext.Provider value={{ user, updateUser, token, updateToken, refresh, loggedIn, loading }}>
       {props.children}
     </UserContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { AuthContext } from '../contexts/AuthContext';
@@ -9,7 +9,7 @@ function LandingPage() {
   const { refresh, loading, loggedIn } = useContext(AuthContext);
   useEffect(() => {
     refresh();
-  }, [])
+  })
 
   return (
     <>

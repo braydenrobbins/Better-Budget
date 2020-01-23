@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Input, Button, Tooltip, Icon, DatePicker, InputNumber, message, notification, Tag } from 'antd';
 import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
@@ -78,7 +78,7 @@ function NewBudget() {
         if (!res.ok) {
           throw Error(res.msg);
         }
-        // updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
+        updateUser(updatedUser);
         message.success('Your new budget was added');
         clearFields();
       })
@@ -87,7 +87,7 @@ function NewBudget() {
       });
   }
 
-  function monthChange(date, dateString) {
+  function monthChange(_, dateString) {
     setMonth(dateString);
   }
 

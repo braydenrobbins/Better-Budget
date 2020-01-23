@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Input, Form, Button, Icon, Row, notification } from 'antd';
-import { Link, Redirect } from 'react-router-dom';
+import { Input, Form, Button, Icon, notification } from 'antd';
+import { Link } from 'react-router-dom';
 import Config from '../config/app.local.config';
 import NavBar from '../components/navBar';
 
