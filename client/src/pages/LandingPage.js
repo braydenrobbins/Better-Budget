@@ -7,14 +7,15 @@ import { AuthContext } from '../contexts/AuthContext';
 function LandingPage() {
   const { user } = useContext(UserContext);
   const { refresh, loading, loggedIn } = useContext(AuthContext);
+
   useEffect(() => {
     refresh();
-  })
+  }, [])
 
   return (
     <>
       {
-        loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''
+        loggedIn ? <Redirect push to={`/users/${user.username}/`} /> : ''
       }
       <div className='landingPageBackground'>
         {loading ?

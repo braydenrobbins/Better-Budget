@@ -1,5 +1,4 @@
 {
   "mongoURI": "mongodb://localhost:27017/BetterBudget",
-  "accessSecret": "secret",
-  "refreshSecret": "notsecret"
+  "jwtSecret": "secret"
 }

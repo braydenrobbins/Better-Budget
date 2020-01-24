@@ -2,21 +2,32 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { NavContext } from '../contexts/NavContext';
-import { isEmpty } from 'lodash';
 import OutsideAlerter from "../components/OutsideAlerter";
+import config from '../config/app.local.config';
+import { AuthContext } from '../contexts/AuthContext';
 
 function NavBar() {
-  // const [navVis, setNavVis] = useState(false);
   const { user, updateUser } = useContext(UserContext);
+  const { loggedIn, setLoggedIn } = useContext(AuthContext);
   const { toggleNav, navVis } = useContext(NavContext);
 
   function logoutUser() {
-    updateUser('');
+    fetch(`${config.websiteServiceUrl}auth/`, {
+      method: "DELETE",
+    })
+      .then(res => {
+        if (!res.ok) throw Error(res.statusText);
+        updateUser('');
+        setLoggedIn(false);
+      })
+      .catch(err => {
+        console.err(err);
+      })
   }
 
   return (
     <OutsideAlerter>
-      {!isEmpty(user) ?
+      {loggedIn ?
         <>
           <div className='nav-bar'>
             <Link to="/"><h1>Better Budget</h1></Link>

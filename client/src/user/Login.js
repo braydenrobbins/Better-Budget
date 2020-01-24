@@ -8,7 +8,7 @@ import NavBar from '../components/navBar';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { user, updateUser, updateToken } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
   const [loggedIn, setLoggedIn] = useState(false);
 
   function handleSubmit(e) {
@@ -38,8 +38,6 @@ function Login() {
         return res.json();
       })
       .then(authUser => {
-        localStorage.setItem('uID', authUser._id);
-        updateToken(authUser.token);
         updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
         setLoggedIn(true);
       })
