@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
 });
 
 router.delete('/', (req, res) => {
-  res.clearCookie('token');
+  res.clearCookie('token', { httpOnly: true });
 })
 
 module.exports = router;

@@ -21,7 +21,7 @@ function NavBar() {
         setLoggedIn(false);
       })
       .catch(err => {
-        console.err(err);
+        console.log(err);
       })
   }
 
