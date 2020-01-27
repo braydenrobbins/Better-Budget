@@ -6,14 +6,18 @@ import { UserContext } from '../contexts/UserContext';
 import { AuthContext } from '../contexts/AuthContext';
 
 function NewBudget() {
+  const { MonthPicker } = DatePicker
   const { user, updateUser, token } = useContext(UserContext);
   const [totalIncome, setTotalIncome] = useState('');
-  const [transportation, setTransportation] = useState('');
-  const [housing, setHousing] = useState('');
-  const [livingExpenses, setLivingExpenses] = useState('');
-  const [debt, setDebt] = useState('');
-  const [savings, setSavings] = useState('');
+  const [transportation, setTransportation] = useState(15);
+  const [housing, setHousing] = useState(35);
+  const [livingExpenses, setLivingExpenses] = useState(25);
+  const [debt, setDebt] = useState(15);
+  const [savings, setSavings] = useState(10);
+  const [month, setMonth] = useState('');
   const { refresh, loading, loggedIn } = useContext(AuthContext);
+  const [disabled, setDisabled] = useState(false);
+  let total = housing + transportation + livingExpenses + debt + savings;
 
   useEffect(() => {
     refresh();
@@ -21,11 +25,6 @@ function NewBudget() {
 
   function clearFields() {
     setTotalIncome('');
-    setTransportation('');
-    setHousing('');
-    setLivingExpenses('');
-    setDebt('');
-    setSavings('');
   }
 
   function submitBudget() {
@@ -37,7 +36,7 @@ function NewBudget() {
         {
           totalIncome,
           categories: { housing, transportation, livingExpenses, debt, savings },
-          transactions: [...user.transactions]
+          transactions: []
         }
       ]
     };
@@ -63,6 +62,18 @@ function NewBudget() {
       });
   }
 
+  function checkPercentages() {
+    if (total !== 100) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }
+
+  function monthChange(_, dateString) {
+    setMonth(dateString);
+  }
+
   function totalIncomeChange(value) {
     setTotalIncome(value);
   }
@@ -76,7 +87,7 @@ function NewBudget() {
   }
 
   function livingExpenseChange(value) {
-    setTotalIncome(value);
+    setLivingExpenses(value);
   }
 
   function savingsChange(value) {
@@ -99,8 +110,19 @@ function NewBudget() {
               <Form.Item
                 label={
                   <span>
+                    Month&nbsp;
+                <Tooltip title="Which month will this budget be for?">
+                      <Icon type="question-circle-o" />
+                    </Tooltip>
+                  </span>}
+              >
+                <MonthPicker style={{ width: '100%' }} format={'MMMM YYYY'} placeholder="Select month" onChange={monthChange} />
+              </Form.Item>
+              <Form.Item
+                label={
+                  <span>
                     Total Household Income&nbsp;
-                <Tooltip title="How much money will you make this month?">
+                <Tooltip title="How much money will your household recieve this month?">
                       <Icon type="question-circle-o" />
                     </Tooltip>
                   </span>}
@@ -114,33 +136,29 @@ function NewBudget() {
                   parser={value => value.replace(/\$\s?|(,*)/g, '')}
                 />
               </Form.Item>
-              <h1>My Big 5</h1>
-              <List>
-                <List.Item>
-                  <h1>Housing</h1>
-                  <Slider defaultValue={35} onAfterChange={housingChange} />
-                </List.Item>
-                <List.Item>
-                  <h1>Transportation</h1>
-                  <Slider defaultValue={15} onAfterChange={transportationChange} />
-                </List.Item>
-                <List.Item>
-                  <h1>Other Living Expenses</h1>
-                  <Slider defaultValue={25} onAfterChange={livingExpenseChange} />
-                </List.Item>
-                <List.Item>
-                  <h1>Debt Payoff</h1>
-                  <Slider defaultValue={15} onAfterChange={debtChange} />
-                </List.Item>
-                <List.Item>
-                  <h1>Savings</h1>
-                  <Slider defaultValue={10} onAfterChange={savingsChange} />
-                </List.Item>
-              </List>
+              <h1>Your Big 5 Categories</h1>
+              <h3>We suggest that you stick to the suggested percentages as best you can, but obviously that isn't always possible for every individual.</h3>
+              <h3>Here you can adjust the budget to fit your current situation better.</h3>
 
-              <Button htmlType="submit" className="login-form-button" onClick={() => submitBudget()}>
+              <h2>Housing ({housing}%): ${Math.floor(totalIncome * (housing / 100))}</h2>
+              <Slider defaultValue={35} marks={35} onChange={housingChange} onAfterChange={checkPercentages} />
+
+              <h2>Transportation ({transportation}%): ${Math.floor(totalIncome * (transportation / 100))}</h2>
+              <Slider defaultValue={15} marks={15} onChange={transportationChange} onAfterChange={checkPercentages} />
+
+              <h2>Expenses ({livingExpenses}%): ${Math.floor(totalIncome * (livingExpenses / 100))}</h2>
+              <Slider defaultValue={25} marks={25} onChange={livingExpenseChange} onAfterChange={checkPercentages} />
+
+              <h2>Debt ({debt}%): ${Math.floor(totalIncome * (debt / 100))}</h2>
+              <Slider defaultValue={15} marks={15} onChange={debtChange} onAfterChange={checkPercentages} />
+
+              <h2>Savings ({savings}%): ${Math.floor(totalIncome * (savings / 100))}</h2>
+              <Slider defaultValue={10} marks={10} onChange={savingsChange} onAfterChange={checkPercentages} />
+
+              {disabled ? <h2 style={{ color: 'red' }}>Total Allocated: {total}%</h2> : ''}
+              <Button htmlType="submit" disabled={disabled} className="login-form-button" onClick={() => submitBudget()}>
                 Submit
-            </Button>
+              </Button>
             </Form>
           </div>
         </>
