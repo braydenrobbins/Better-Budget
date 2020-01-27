@@ -15,6 +15,17 @@ function Budget() {
     refresh();
   }, [])
 
+  // ==============================================
+  // function getValue() {
+  //   const categories = Object.keys(categoryObj)
+  //   const values = categories.map(category => {
+  //       categoryObj.[category]
+  //   })
+  //   console.log(values);
+  //   });
+  // }
+  //===============================================
+
 
   function previousMonth() {
     setBudgetSelected(budgetSelected + 1);

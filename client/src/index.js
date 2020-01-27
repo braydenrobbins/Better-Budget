@@ -14,25 +14,27 @@ import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 import Budget from './pages/Budget';
 import NewBudget from './pages/newBudget';
-
+// import Transactions from './pages/Transactions';
 
 function App() {
   return (
     <div className="App">
-      <Router> <UserContextProvider>
-        <AuthContextProvider>
-          <NavContextProvider>
+      <Router>
+        <UserContextProvider>
+          <AuthContextProvider>
+            <NavContextProvider>
 
-            <Route path="/" exact render={() => <LandingPage />} />
-            <Route path={`/users/:username`} exact render={() => <Profile />} />
-            <Route path="/login" exact render={() => <Login />} />
-            <Route path="/signUp" exact render={() => <SignUp />} />
-            <Route path={`/users/:username/budget`} exact render={() => <Budget />} />
-            <Route path={`/users/:username/newBudget`} exact render={() => <NewBudget />} />
+              <Route path="/" exact render={() => <LandingPage />} />
+              <Route path={`/users/:username`} exact render={() => <Profile />} />
+              <Route path="/login" exact render={() => <Login />} />
+              <Route path="/signUp" exact render={() => <SignUp />} />
+              <Route path={`/users/:username/budget`} exact render={() => <Budget />} />
+              <Route path={`/users/:username/newBudget`} exact render={() => <NewBudget />} />
+              {/* <Route path={`/users/:username/transactions`} exact render={() => <Transactions />} /> */}
 
-          </NavContextProvider>
-        </AuthContextProvider>
-      </UserContextProvider>
+            </NavContextProvider>
+          </AuthContextProvider>
+        </UserContextProvider>
       </Router>
     </div>
   );
