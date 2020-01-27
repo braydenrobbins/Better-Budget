@@ -27,7 +27,7 @@ const AuthContextProvider = props => {
       })
       .then(authUser => {
         updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
-        setLoggedIn(true);
+        if (!loggedIn) setLoggedIn(true);
         setLoading(false);
       })
       .catch(err => {

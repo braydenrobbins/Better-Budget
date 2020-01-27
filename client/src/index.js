@@ -9,12 +9,11 @@ import UserContextProvider from "./contexts/UserContext";
 import AuthContextProvider from './contexts/AuthContext';
 
 import LandingPage from './pages/LandingPage';
-import Login from './user/Login';
+import Login from './pages/Login';
 import Profile from './pages/Profile';
-import SignUp from './user/SignUp';
+import SignUp from './pages/SignUp';
 import Budget from './pages/Budget';
 import NewBudget from './pages/newBudget';
-import PrivateRoute from './components/PrivateRoute';
 
 
 function App() {
@@ -25,11 +24,11 @@ function App() {
           <NavContextProvider>
 
             <Route path="/" exact render={() => <LandingPage />} />
-            <PrivateRoute path={`/users/:username`} exact render={() => <Profile />} />
+            <Route path={`/users/:username`} exact render={() => <Profile />} />
             <Route path="/login" exact render={() => <Login />} />
             <Route path="/signUp" exact render={() => <SignUp />} />
-            <PrivateRoute path={`/users/:username/budget`} exact render={() => <Budget />} />
-            <PrivateRoute path={`/users/:username/newBudget`} exact render={() => <NewBudget />} />
+            <Route path={`/users/:username/budget`} exact render={() => <Budget />} />
+            <Route path={`/users/:username/newBudget`} exact render={() => <NewBudget />} />
 
           </NavContextProvider>
         </AuthContextProvider>
