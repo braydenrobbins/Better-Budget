@@ -11,13 +11,13 @@ function NewBudget() {
   const [totalIncome, setTotalIncome] = useState('');
   const [transportation, setTransportation] = useState(15);
   const [housing, setHousing] = useState(35);
-  const [livingExpenses, setLivingExpenses] = useState(25);
+  const [expenses, setExpenses] = useState(25);
   const [debt, setDebt] = useState(15);
   const [savings, setSavings] = useState(10);
   const [month, setMonth] = useState('');
   const { refresh, loading, loggedIn } = useContext(AuthContext);
   const [disabled, setDisabled] = useState(false);
-  let total = housing + transportation + livingExpenses + debt + savings;
+  let total = housing + transportation + expenses + debt + savings;
 
   useEffect(() => {
     refresh();
@@ -34,13 +34,13 @@ function NewBudget() {
       budgets: [
         ...user.budgets,
         {
+          month,
           totalIncome,
-          categories: { housing, transportation, livingExpenses, debt, savings },
+          categories: { housing, transportation, expenses, debt, savings },
           transactions: []
         }
       ]
     };
-
     fetch(`${Config.websiteServiceUrl}budget`, {
       method: `PATCH`,
       headers: {
@@ -86,8 +86,8 @@ function NewBudget() {
     setTransportation(value);
   }
 
-  function livingExpenseChange(value) {
-    setLivingExpenses(value);
+  function expenseChange(value) {
+    setExpenses(value);
   }
 
   function savingsChange(value) {
@@ -141,19 +141,19 @@ function NewBudget() {
               <h3>Here you can adjust the budget to fit your current situation better.</h3>
 
               <h2>Housing ({housing}%): ${Math.floor(totalIncome * (housing / 100))}</h2>
-              <Slider defaultValue={35} marks={35} onChange={housingChange} onAfterChange={checkPercentages} />
+              <Slider defaultValue={35} onChange={housingChange} onAfterChange={checkPercentages} />
 
               <h2>Transportation ({transportation}%): ${Math.floor(totalIncome * (transportation / 100))}</h2>
-              <Slider defaultValue={15} marks={15} onChange={transportationChange} onAfterChange={checkPercentages} />
+              <Slider defaultValue={15} onChange={transportationChange} onAfterChange={checkPercentages} />
 
-              <h2>Expenses ({livingExpenses}%): ${Math.floor(totalIncome * (livingExpenses / 100))}</h2>
-              <Slider defaultValue={25} marks={25} onChange={livingExpenseChange} onAfterChange={checkPercentages} />
+              <h2>Expenses ({expenses}%): ${Math.floor(totalIncome * (expenses / 100))}</h2>
+              <Slider defaultValue={25} onChange={expenseChange} onAfterChange={checkPercentages} />
 
               <h2>Debt ({debt}%): ${Math.floor(totalIncome * (debt / 100))}</h2>
-              <Slider defaultValue={15} marks={15} onChange={debtChange} onAfterChange={checkPercentages} />
+              <Slider defaultValue={15} onChange={debtChange} onAfterChange={checkPercentages} />
 
               <h2>Savings ({savings}%): ${Math.floor(totalIncome * (savings / 100))}</h2>
-              <Slider defaultValue={10} marks={10} onChange={savingsChange} onAfterChange={checkPercentages} />
+              <Slider defaultValue={10} onChange={savingsChange} onAfterChange={checkPercentages} />
 
               {disabled ? <h2 style={{ color: 'red' }}>Total Allocated: {total}%</h2> : ''}
               <Button htmlType="submit" disabled={disabled} className="login-form-button" onClick={() => submitBudget()}>

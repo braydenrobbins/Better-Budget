@@ -14,7 +14,7 @@ import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 import Budget from './pages/Budget';
 import NewBudget from './pages/newBudget';
-// import Transactions from './pages/Transactions';
+import Transactions from './pages/Transactions';
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
               <Route path="/signUp" exact render={() => <SignUp />} />
               <Route path={`/users/:username/budget`} exact render={() => <Budget />} />
               <Route path={`/users/:username/newBudget`} exact render={() => <NewBudget />} />
-              {/* <Route path={`/users/:username/transactions`} exact render={() => <Transactions />} /> */}
+              <Route path={`/users/:username/transactions`} exact render={() => <Transactions />} />
 
             </NavContextProvider>
           </AuthContextProvider>

@@ -4,7 +4,7 @@ import { UserContext } from '../contexts/UserContext';
 export const AuthContext = createContext();
 
 const AuthContextProvider = props => {
-  const { updateUser } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
   const [loggedIn, setLoggedIn] = useState('');
   const [loading, setLoading] = useState('');
 
@@ -27,6 +27,7 @@ const AuthContextProvider = props => {
       })
       .then(authUser => {
         updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
+        console.log(user);
         if (!loggedIn) setLoggedIn(true);
         setLoading(false);
       })

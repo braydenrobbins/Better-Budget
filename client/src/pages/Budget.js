@@ -3,16 +3,17 @@ import { UserContext } from '../contexts/UserContext';
 import NavBar from '../components/navBar';
 import { Progress, List, Button } from 'antd';
 import { AuthContext } from '../contexts/AuthContext';
+import moment from 'moment';
 
 function Budget() {
   const { user } = useContext(UserContext);
-  const [budgetSelected, setBudgetSelected] = useState(0 || '');
-  // const currentMonth = user.budgets[budgetSelected].month
-  // const lastMonth = user.budgets.length;
+  const [budgetSelected, setBudgetSelected] = useState('');
   const { refresh, loading, loggedIn } = useContext(AuthContext);
 
   useEffect(() => {
     refresh();
+    console.log(user.budgets)
+    setBudgetSelected(user.budgets.filter(budget => budget.month === moment().date("mmmm yyyy")))
   }, [])
 
   // ==============================================
@@ -35,8 +36,8 @@ function Budget() {
     setBudgetSelected(budgetSelected - 1);
   }
 
-  const allCategories = Object.keys(user.budgets[budgetSelected].categories)
-  const uniqueCategories = allCategories.filter((category, index) => allCategories.indexOf(category) === index)
+  // const allCategories = Object.keys(user.budgets[budgetSelected].categories)
+  // const uniqueCategories = allCategories.filter((category, index) => allCategories.indexOf(category) === index)
 
   return (
     <>
@@ -54,7 +55,7 @@ function Budget() {
               }}
               percent={100}
             />
-            <h2>{user.budgets[budgetSelected].month}</h2>
+            {/* <h2>{user.budgets[budgetSelected].month}</h2>
             <Button onClick={() => previousMonth()}>Previous Month</Button>
             <Button disabled={true} onClick={() => nextMonth()}>Next Month</Button>
             <List
@@ -69,7 +70,7 @@ function Budget() {
                   <h2>{category}</h2>
                 </List.Item>
               )}
-            />
+            /> */}
           </div>
         </>
       }
