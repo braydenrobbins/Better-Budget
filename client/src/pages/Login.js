@@ -5,9 +5,9 @@ import { Redirect } from 'react-router-dom';
 import Config from '../config/app.local.config';
 import NavBar from '../components/navBar';
 import { AuthContext } from '../contexts/AuthContext';
-import isEmpty from 'lodash';
 
 function Login() {
+  let isEmpty = require('lodash/isEmpty');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { user, updateUser, currentMonth, updateCurrentMonth, updateBudgets, currentBudget, updateCurrentBudget, updateTransactions } = useContext(UserContext);

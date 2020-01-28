@@ -5,9 +5,9 @@ import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
 import { UserContext } from '../contexts/UserContext';
 import { AuthContext } from '../contexts/AuthContext';
-import isEmpty from 'lodash';
 
 function NewBudget() {
+  let isEmpty = require('lodash/isEmpty');
   const { MonthPicker } = DatePicker
   const { user, updateUser, token } = useContext(UserContext);
   const [totalIncome, setTotalIncome] = useState('');
