@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Input, Form, Button, Icon, notification } from 'antd';
+import { Input, Form, Button, Icon, message} from 'antd';
 import { UserContext } from '../contexts/UserContext';
 import { Redirect } from 'react-router-dom';
 import Config from '../config/app.local.config';
@@ -46,10 +46,7 @@ function Login() {
         updateLoggedIn(true);
       })
       .catch(err => {
-        notification[err]({
-          message: "Oh No! Something went wrong!",
-          description: `Sorry about that! We could not sign you in.`
-        });
+        message.error(`${err} We could not sign you in`)
       });
   }
 
@@ -79,7 +76,7 @@ function Login() {
           <Button htmlType="submit" className="login-form-button">
             Start Saving
             </Button>
-          {loggedIn ? <Redirect push to={`/users/${user.username}/transactions`} /> : ''}
+          {loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''}
         </Form>
       </div>
     </>

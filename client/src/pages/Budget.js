@@ -1,48 +1,27 @@
 import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import NavBar from '../components/navBar';
-import { Progress } from 'antd';
+import { Progress, Button, List } from 'antd';
 import { AuthContext } from '../contexts/AuthContext';
 import isEmpty from 'lodash';
 
 function Budget() {
-  const { user } = useContext(UserContext);
-  // const [budgetSelected, setBudgetSelected] = useState('');
+  const { user, updateUser, transactions, currentBudget, budgets, currentMonth, updateCurrentBudget } = useContext(UserContext);
   const { refresh, loading } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!isEmpty(user)) return;
     refresh();
-  });
+  }, []);
 
-  // useEffect(() => {
-  //   refresh();
-  //   console.log(user.budgets)
-  //   setBudgetSelected(user.budgets.filter(budget => budget.month === moment().date("mmmm yyyy")))
-  // }, [])
+  const categories = currentBudget.categories;
 
-  // ==============================================
-  // function getValue() {
-  //   const categories = Object.keys(categoryObj)
-  //   const values = categories.map(category => {
-  //       categoryObj.[category]
-  //   })
-  //   console.log(values);
-  //   });
-  // }
-  //===============================================
+  function previousMonth() {
+    updateCurrentBudget(currentBudget + 1);
+  }
 
-
-  // function previousMonth() {
-  //   setBudgetSelected(budgetSelected + 1);
-  // }
-
-  // function nextMonth() {
-  //   setBudgetSelected(budgetSelected - 1);
-  // }
-
-  // const allCategories = Object.keys(user.budgets[budgetSelected].categories)
-  // const uniqueCategories = allCategories.filter((category, index) => allCategories.indexOf(category) === index)
+  function nextMonth() {
+    updateCurrentBudget(currentBudget - 1);
+  }
 
   return (
     <>
@@ -60,22 +39,38 @@ function Budget() {
               }}
               percent={100}
             />
-            {/* <h2>{user.budgets[budgetSelected].month}</h2>
+            <div>
             <Button onClick={() => previousMonth()}>Previous Month</Button>
+            <span>{currentMonth}</span>
             <Button disabled={true} onClick={() => nextMonth()}>Next Month</Button>
+            </div>
             <List
               grid={{ column: 3 }}
               bordered={true}
               itemLayout='vertical'
               className='categories-list'
-              dataSource={uniqueCategories}
-              renderItem={category => (
+              >
                 <List.Item>
-                  <Progress type="circle" strokeColor='#0070A9' percent={20} />
-                  <h2>{category}</h2>
+                  <Progress type="circle" strokeColor='#0070A9' percent={categories.housing} />
+                  <h2>Housing</h2>
                 </List.Item>
-              )}
-            /> */}
+                <List.Item>
+                  <Progress type="circle" strokeColor='#0070A9' percent={categories.transportation} />
+                  <h2>Transportation</h2>
+                </List.Item>
+                <List.Item>
+                  <Progress type="circle" strokeColor='#0070A9' percent={categories.expenses} />
+                  <h2>Expenses</h2>
+                </List.Item>
+                <List.Item>
+                  <Progress type="circle" strokeColor='#0070A9' percent={categories.debt} />
+                  <h2>Debt</h2>
+                </List.Item>
+                <List.Item>
+                  <Progress type="circle" strokeColor='#0070A9' percent={categories.savings} />
+                  <h2>Savings</h2>
+                </List.Item>
+            </List>
           </div>
         </>
       }

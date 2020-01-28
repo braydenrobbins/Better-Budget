@@ -17,7 +17,6 @@ function Transactions() {
 
   useEffect(() => {
     refresh();
-    console.log('firing');
   }, []);
 
   const monthNames = {
