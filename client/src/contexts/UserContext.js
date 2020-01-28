@@ -1,50 +1,38 @@
 import React, { createContext, useState } from 'react';
-import Config from '../config/app.local.config';
+import moment from 'moment';
 
 export const UserContext = createContext();
 
 const UserContextProvider = props => {
   const [user, setUser] = useState({});
-  const [token, setToken] = useState('');
-  const [loggedIn, setLoggedIn] = useState('');
-  const [loading, setLoading] = useState('');
+  const [transactions, setTransactions] = useState('');
+  const [budgets, setBudgets] = useState('');
+  const [currentBudget, setCurrentBudget] = useState('');
+  const [currentMonth, setCurrentMonth] = useState(moment().format('MMMM YYYY'));
 
-  function refresh() {
-    const _id = localStorage.getItem('uID');
-    fetch(`${Config.websiteServiceUrl}auth/refresh/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json;charset=UTF-8" },
-      accepts: "application/json",
-      body: JSON.stringify(_id)
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw Error(res.statusText);
-        }
-        setLoading(false);
-        return res.json()
-      })
-      .then(authUser => {
-        console.log(authUser);
-        updateToken(authUser.token);
-        updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
-        setLoggedIn(true);
-      })
-      .catch(err => {
-        setLoading(false);
-      });
+  function updateTransactions(updatedTransactions) {
+    setTransactions(updatedTransactions);
+  }
+
+  function updateBudgets(updatedBudgets) {
+    setBudgets(updatedBudgets);
+  }
+
+  function updateCurrentBudget(updatedCurrentBudget) {
+    setCurrentBudget(updatedCurrentBudget);
   }
 
   function updateUser(updatedUser) {
     setUser(updatedUser);
   }
 
-  function updateToken(updatedToken) {
-    setToken(updatedToken);
+  function updateCurrentMonth(updatedCurrentMonth) {
+    setCurrentMonth(updatedCurrentMonth);
   }
 
+
   return (
-    <UserContext.Provider value={{ user, updateUser, token, updateToken, refresh, loggedIn, loading }}>
+    <UserContext.Provider value={{ user, updateUser, transactions, budgets, currentBudget, updateTransactions, updateBudgets, updateCurrentBudget, currentMonth, updateCurrentMonth }}>
       {props.children}
     </UserContext.Provider>
   );

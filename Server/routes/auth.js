@@ -8,7 +8,7 @@ const User = require("../models/User");
 router.get("/", (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, config.get("jwtSecret"), async (err, decodedUser) => {
-    if (err) return res.sendStatus(403);
+    if (err) return res.send('Invalid Token');
     const user = await User.findById(decodedUser.user._id).select("-password");;
     if (!user) return res.status(400).json({ msg: "User not found" });
     res.json(user);

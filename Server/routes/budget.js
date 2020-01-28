@@ -7,7 +7,7 @@ const User = require("../models/User");
 router.patch('/', function (req, res, next) {
   const record = req.body;
   const { budgets } = record;
-  const month = budgets.month
+  const month = budgets[budgets.length - 1].month;
   User.findByIdAndUpdate(record._id, record, (err, user) => {
     user.budgets.map(budget => {
       if (budget.month === month)

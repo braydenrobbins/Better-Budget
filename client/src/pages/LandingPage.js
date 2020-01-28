@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { AuthContext } from '../contexts/AuthContext';
+import isEmpty from 'lodash';
 
 
 function LandingPage() {
@@ -9,8 +10,9 @@ function LandingPage() {
   const { refresh, loading, loggedIn } = useContext(AuthContext);
 
   useEffect(() => {
+    if (!isEmpty(user)) return;
     refresh();
-  }, [])
+  });
 
   return (
     <>

@@ -1,20 +1,25 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import NavBar from '../components/navBar';
-import { Progress, List, Button } from 'antd';
+import { Progress } from 'antd';
 import { AuthContext } from '../contexts/AuthContext';
-import moment from 'moment';
+import isEmpty from 'lodash';
 
 function Budget() {
   const { user } = useContext(UserContext);
-  const [budgetSelected, setBudgetSelected] = useState('');
-  const { refresh, loading, loggedIn } = useContext(AuthContext);
+  // const [budgetSelected, setBudgetSelected] = useState('');
+  const { refresh, loading } = useContext(AuthContext);
 
   useEffect(() => {
+    if (!isEmpty(user)) return;
     refresh();
-    console.log(user.budgets)
-    setBudgetSelected(user.budgets.filter(budget => budget.month === moment().date("mmmm yyyy")))
-  }, [])
+  });
+
+  // useEffect(() => {
+  //   refresh();
+  //   console.log(user.budgets)
+  //   setBudgetSelected(user.budgets.filter(budget => budget.month === moment().date("mmmm yyyy")))
+  // }, [])
 
   // ==============================================
   // function getValue() {
@@ -28,13 +33,13 @@ function Budget() {
   //===============================================
 
 
-  function previousMonth() {
-    setBudgetSelected(budgetSelected + 1);
-  }
+  // function previousMonth() {
+  //   setBudgetSelected(budgetSelected + 1);
+  // }
 
-  function nextMonth() {
-    setBudgetSelected(budgetSelected - 1);
-  }
+  // function nextMonth() {
+  //   setBudgetSelected(budgetSelected - 1);
+  // }
 
   // const allCategories = Object.keys(user.budgets[budgetSelected].categories)
   // const uniqueCategories = allCategories.filter((category, index) => allCategories.indexOf(category) === index)

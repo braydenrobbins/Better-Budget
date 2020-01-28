@@ -1,14 +1,18 @@
 import React, { createContext, useState, useContext } from 'react';
 import Config from '../config/app.local.config';
 import { UserContext } from '../contexts/UserContext';
+import moment from 'moment';
+import isEmpty from 'lodash';
+
 export const AuthContext = createContext();
 
 const AuthContextProvider = props => {
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUser, updateBudgets, updateCurrentBudget, currentMonth, updateTransactions } = useContext(UserContext);
   const [loggedIn, setLoggedIn] = useState('');
   const [loading, setLoading] = useState('');
 
   function refresh() {
+    if (!isEmpty(user)) return;
     fetch(`${Config.websiteServiceUrl}auth/`, {
       method: "GET",
       credentials: 'include',
@@ -26,8 +30,10 @@ const AuthContextProvider = props => {
         return res.json()
       })
       .then(authUser => {
-        updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
-        console.log(user);
+        updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: authUser.budgets });
+        updateBudgets(authUser.budgets);
+        updateCurrentBudget(authUser.budgets.find(budget => budget.month === currentMonth));
+        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth).transactions);
         if (!loggedIn) setLoggedIn(true);
         setLoading(false);
       })

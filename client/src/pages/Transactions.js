@@ -5,34 +5,50 @@ import Config from '../config/app.local.config';
 import { UserContext } from '../contexts/UserContext';
 import { AuthContext } from '../contexts/AuthContext';
 import moment from 'moment';
-import isEmpty from 'lodash';
 
 function Transactions() {
-  const { user, updateUser } = useContext(UserContext);
-  const { refresh, loading, loggedIn } = useContext(AuthContext);
-  const [month, setMonth] = useState(moment().format('MMMM YYYY'));
-  const [transactions, setTransactions] = useState('');
+  const { user, updateUser, transactions, currentBudget, budgets, currentMonth } = useContext(UserContext);
+  const { refresh, loading } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
   const [merchant, setMerchant] = useState('');
-  let currentBudget = {};
 
   useEffect(() => {
-    if (isEmpty(user)) {
-      refresh();
-    }
-    currentBudget = user.budgets.find(budget => budget.month === month)[0];
-    setTransactions([...currentBudget.transactions]);
+    refresh();
+    console.log('firing');
   }, []);
 
+  const monthNames = {
+    "January": 1,
+    "February": 2,
+    "March": 3,
+    "April": 4,
+    "May": 5,
+    "June": 6,
+    "July": 7,
+    "August": 8,
+    "September": 9,
+    "October": 10,
+    "November": 11,
+    "December": 12
+  };
+
+  function sortMonths() {
+    const budgetMonths = budgets.map(budget => budget.month);
+    const sortedMonths = budgetMonths.sort((a, b) => monthNames[budgetMonths[a.split(' ')[0]]] - monthNames[budgetMonths[b.split(' ')[0]]]);
+    console.log(sortedMonths);
+  }
+
   function addTransaction() {
+    const budgetsWithoutCurrentBudget = budgets.filter(budget => budget.month !== currentMonth);
+    setVisible(false);
     const updatedUser = {
       _id: user._id,
       username: user.username,
       budgets: [
-        ...user.budgets,
+        ...budgetsWithoutCurrentBudget,
         {
           ...currentBudget,
           transactions: [
@@ -42,7 +58,7 @@ function Transactions() {
         }
       ]
     };
-    fetch(`${Config.websiteServiceUrl}transaction`, {
+    fetch(`${Config.websiteServiceUrl}budget`, {
       method: `PATCH`,
       headers: {
         "Content-Type": "application/JSON"
@@ -59,7 +75,6 @@ function Transactions() {
       .catch(err => {
         notification.open(err);
       });
-
   }
 
   function showModal() {
@@ -67,10 +82,6 @@ function Transactions() {
   }
 
   function onCancel() {
-    setVisible(false);
-  }
-
-  function handleOk() {
     setVisible(false);
   }
 
@@ -115,7 +126,7 @@ function Transactions() {
             <h1>Transactions</h1>
             <div>
               <Button>{`<`}</Button>
-              <span>{month}</span>
+              <span>{currentMonth}</span>
               <Button>></Button>
             </div>
             <Button onClick={showModal} >Add Transaction</Button>
@@ -125,36 +136,34 @@ function Transactions() {
               title="Create a new transaction"
               okText="Add"
               onCancel={onCancel}
-              onOk={handleOk}
+              onOk={addTransaction}
             >
               <Form layout="vertical">
-                <>
-                  <Form.Item label="Date">
-                    <DatePicker style={{ width: "100%" }} format="DD MMMM YYYY" onChange={dateChange} />
-                  </Form.Item>
-                  <Form.Item label="Amount">
-                    <InputNumber
-                      style={{ width: '100%' }}
-                      defaultValue={0}
-                      value={amount}
-                      onChange={amountChange}
-                      formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                      parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                    />
-                  </Form.Item>
-                  <Form.Item label="Merchant">
-                    <Input value={merchant} onChange={e => setMerchant(e.target.value(e))} />
-                  </Form.Item>
-                  <Form.Item label="Category">
-                    <Radio.Group onChange={e => setCategory(e.target.value)} value={category}>
-                      <Radio value='Housing'>Housing</Radio>
-                      <Radio value='Transportation'>Transportation</Radio>
-                      <Radio value='Expenses'>Expenses</Radio>
-                      <Radio value='Debt'>Debt</Radio>
-                      <Radio value='Savings'>Savings</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                </>
+                <Form.Item label="Date">
+                  <DatePicker style={{ width: "100%" }} format="DD MMMM YYYY" onChange={dateChange} />
+                </Form.Item>
+                <Form.Item label="Amount">
+                  <InputNumber
+                    style={{ width: '100%' }}
+                    defaultValue={0}
+                    value={amount}
+                    onChange={amountChange}
+                    formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                  />
+                </Form.Item>
+                <Form.Item label="Merchant">
+                  <Input onChange={e => setMerchant(e.target.value)} />
+                </Form.Item>
+                <Form.Item label="Category">
+                  <Radio.Group onChange={e => setCategory(e.target.value)}>
+                    <Radio value='Housing'>Housing</Radio>
+                    <Radio value='Transportation'>Transportation</Radio>
+                    <Radio value='Expenses'>Expenses</Radio>
+                    <Radio value='Debt'>Debt</Radio>
+                    <Radio value='Savings'>Savings</Radio>
+                  </Radio.Group>
+                </Form.Item>
               </Form>
             </Modal>
           </div>

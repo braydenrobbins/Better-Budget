@@ -9,7 +9,7 @@ import { AuthContext } from '../contexts/AuthContext';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUser, currentMonth, updateCurrentMonth, updateBudgets, currentBudget, updateCurrentBudget, updateTransactions } = useContext(UserContext);
   const { loggedIn, updateLoggedIn } = useContext(AuthContext);
 
   function handleSubmit(e) {
@@ -39,11 +39,14 @@ function Login() {
         return res.json();
       })
       .then(authUser => {
-        updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: [...authUser.budgets] });
+        updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: authUser.budgets });
+        updateBudgets(authUser.budgets);
+        updateCurrentBudget(authUser.budgets.find(budget => budget.month === currentMonth));
+        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth).transactions);
         updateLoggedIn(true);
       })
       .catch(err => {
-        notification["error"]({
+        notification[err]({
           message: "Oh No! Something went wrong!",
           description: `Sorry about that! We could not sign you in.`
         });
@@ -76,7 +79,7 @@ function Login() {
           <Button htmlType="submit" className="login-form-button">
             Start Saving
             </Button>
-          {loggedIn ? <Redirect push to={`/users/${user.username}/`} /> : ''}
+          {loggedIn ? <Redirect push to={`/users/${user.username}/transactions`} /> : ''}
         </Form>
       </div>
     </>

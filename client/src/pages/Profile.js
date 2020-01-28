@@ -2,14 +2,17 @@ import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import NavBar from '../components/navBar';
 import { AuthContext } from '../contexts/AuthContext';
+import isEmpty from 'lodash';
 
 function Profile() {
   const { user, token } = useContext(UserContext);
-  const { refresh, loading, loggedIn } = useContext(AuthContext);
+  const { refresh, loading } = useContext(AuthContext);
 
   useEffect(() => {
+    if (!isEmpty(user)) return;
     refresh();
-  }, [])
+  });
+
   return (
     <>
       {loading ?

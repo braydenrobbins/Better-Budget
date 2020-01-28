@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Form, List, Button, Tooltip, Icon, DatePicker, InputNumber, message, notification, Tag, Slider } from 'antd';
+import { Form, Button, Tooltip, Icon, DatePicker, InputNumber, message, notification, Slider } from 'antd';
 import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
 import { UserContext } from '../contexts/UserContext';
 import { AuthContext } from '../contexts/AuthContext';
+import isEmpty from 'lodash';
 
 function NewBudget() {
   const { MonthPicker } = DatePicker
@@ -15,13 +16,14 @@ function NewBudget() {
   const [debt, setDebt] = useState(15);
   const [savings, setSavings] = useState(10);
   const [month, setMonth] = useState('');
-  const { refresh, loading, loggedIn } = useContext(AuthContext);
+  const { refresh, loading } = useContext(AuthContext);
   const [disabled, setDisabled] = useState(false);
   let total = housing + transportation + expenses + debt + savings;
 
   useEffect(() => {
+    if (!isEmpty(user)) return;
     refresh();
-  }, [])
+  });
 
   function clearFields() {
     setTotalIncome('');
