@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Form, Button, Icon, notification } from 'antd';
+import { Input, Form, Button, Icon, message } from 'antd';
 import { Link } from 'react-router-dom';
 import Config from '../config/app.local.config';
 import NavBar from '../components/navBar';
@@ -32,19 +32,14 @@ function SignUp() {
       body: JSON.stringify(newUser)
     })
       .then(res => {
-        if (!res.ok) {
-          throw Error(res.statusText);
-        }
+        if (!res.ok) throw Error(res.statusText);
         return res.json()
       })
       .then(() => {
         setUserCreated(true);
       })
       .catch(err => {
-        notification["error"]({
-          message: "Oh No! Something went wrong!",
-          description: `Sorry about that! We could not sign you in.`
-        });
+        message.error(`${err} We could not create your profile`);
       });
   }
   return (
@@ -55,6 +50,7 @@ function SignUp() {
         <h2><Link to='/login'>Log in here</Link></h2>
       </> :
         <>
+        <div className='main-content'>
           <h1>Sign Up</h1>
           <Form onSubmit={handleSubmit} className="login-form">
             <Form.Item>
@@ -102,6 +98,7 @@ function SignUp() {
           </Button>
             </Form.Item>
           </Form>
+          </div>
         </>
       }
     </>

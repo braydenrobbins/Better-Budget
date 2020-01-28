@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import Config from '../config/app.local.config';
 import NavBar from '../components/navBar';
 import { AuthContext } from '../contexts/AuthContext';
+import isEmpty from 'lodash';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -41,12 +42,12 @@ function Login() {
       .then(authUser => {
         updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: authUser.budgets });
         updateBudgets(authUser.budgets);
-        updateCurrentBudget(authUser.budgets.find(budget => budget.month === currentMonth));
-        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth).transactions);
+        updateCurrentBudget(authUser.budgets.find(budget => budget.month === currentMonth) || '');
+        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth)?.transactions || '');
         updateLoggedIn(true);
       })
       .catch(err => {
-        message.error(`${err} We could not sign you in`)
+        message.error(`${err} We could not sign you in`);
       });
   }
 
@@ -76,7 +77,7 @@ function Login() {
           <Button htmlType="submit" className="login-form-button">
             Start Saving
             </Button>
-          {loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''}
+          {loggedIn ? <Redirect push to={isEmpty(user.budgets) ? `/users/${user.username}/newBudget` : `/users/${user.username}/budget`} /> : ''}
         </Form>
       </div>
     </>

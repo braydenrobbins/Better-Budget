@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import {Redirect} from 'react-router-dom';
 import { Form, Button, Tooltip, Icon, DatePicker, InputNumber, message, notification, Slider } from 'antd';
 import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
@@ -18,12 +19,12 @@ function NewBudget() {
   const [month, setMonth] = useState('');
   const { refresh, loading } = useContext(AuthContext);
   const [disabled, setDisabled] = useState(false);
+  const [budgetCreated, setBudgetCreated] = useState(false);
   let total = housing + transportation + expenses + debt + savings;
 
   useEffect(() => {
-    if (!isEmpty(user)) return;
     refresh();
-  });
+  }, []);
 
   function clearFields() {
     setTotalIncome('');
@@ -56,6 +57,7 @@ function NewBudget() {
           throw Error(res.msg);
         }
         updateUser(updatedUser);
+        setBudgetCreated(true);
         message.success('Your new budget was added');
         clearFields();
       })
@@ -162,6 +164,7 @@ function NewBudget() {
                 Submit
               </Button>
             </Form>
+            {budgetCreated ? <Redirect push to={`/users/${user.username}/budget`}/> : ''}
           </div>
         </>
       }
