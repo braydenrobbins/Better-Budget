@@ -4,10 +4,9 @@ import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
 import { UserContext } from '../contexts/UserContext';
 import { AuthContext } from '../contexts/AuthContext';
-import moment from 'moment';
 
 function Transactions() {
-  const { user, updateUser, transactions, currentBudget, budgets, currentMonth } = useContext(UserContext);
+  const { user, updateUser, transactions, currentBudget, budgets, currentMonth, updateTransactions } = useContext(UserContext);
   const { refresh, loading } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState('');
@@ -18,27 +17,6 @@ function Transactions() {
   useEffect(() => {
     refresh();
   }, []);
-
-  const monthNames = {
-    "January": 1,
-    "February": 2,
-    "March": 3,
-    "April": 4,
-    "May": 5,
-    "June": 6,
-    "July": 7,
-    "August": 8,
-    "September": 9,
-    "October": 10,
-    "November": 11,
-    "December": 12
-  };
-
-  function sortMonths() {
-    const budgetMonths = budgets.map(budget => budget.month);
-    const sortedMonths = budgetMonths.sort((a, b) => monthNames[budgetMonths[a.split(' ')[0]]] - monthNames[budgetMonths[b.split(' ')[0]]]);
-    console.log(sortedMonths);
-  }
 
   function addTransaction() {
     const budgetsWithoutCurrentBudget = budgets.filter(budget => budget.month !== currentMonth);
@@ -57,7 +35,7 @@ function Transactions() {
         }
       ]
     };
-    fetch(`${Config.websiteServiceUrl}budget`, {
+    fetch(`${Config.websiteServiceUrl}budget/transaction`, {
       method: `PATCH`,
       headers: {
         "Content-Type": "application/JSON"
@@ -65,14 +43,15 @@ function Transactions() {
       body: JSON.stringify(updatedUser)
     })
       .then(res => {
-        if (!res.ok) {
-          throw Error(res.msg);
-        }
+        if (!res.ok) throw Error(res.msg);
+      })
+      .then(authUser => {
         updateUser(updatedUser);
-        message.success('Your new budget was added');
+        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth)?.transactions || '');
+        message.success('Your transaction was added');
       })
       .catch(err => {
-        notification.open(err);
+        message.error(err);
       });
   }
 

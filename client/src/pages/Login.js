@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Input, Form, Button, Icon, message} from 'antd';
+import { Input, Form, Button, Icon, message } from 'antd';
 import { UserContext } from '../contexts/UserContext';
 import { Redirect } from 'react-router-dom';
 import Config from '../config/app.local.config';

@@ -3,56 +3,50 @@ import { UserContext } from '../contexts/UserContext';
 import NavBar from '../components/navBar';
 import { Progress, Button, List } from 'antd';
 import { AuthContext } from '../contexts/AuthContext';
+import MonthSelector from '../components/monthSelector';
 
 function Budget() {
   let isEmpty = require('lodash/isEmpty');
-  const { user, updateUser, transactions, currentBudget, budgets, currentMonth, updateCurrentBudget } = useContext(UserContext);
+  const { transactions, currentBudget } = useContext(UserContext);
   const { refresh, loading } = useContext(AuthContext);
-  let housingPercent = '';
-  let transportationPercent = '';
-  let expensesPercent = '';
-  let debtPercent = '';
-  let savingsPercent = '';
+  let housingAmount = '';
+  let transportationAmount = '';
+  let expensesAmount = '';
+  let debtAmount = '';
+  let savingsAmount = '';
 
   useEffect(() => {
     refresh();
   }, []);
 
-  if(!isEmpty(transactions)) {
-  const housingTransactions = transactions.filter(transaction => transaction.category === 'Housing');
-  if(!isEmpty(housingTransactions)) {
-  housingPercent = parseInt(100/(currentBudget.totalIncome/housingTransactions.reduce((a, b) => a.amount + b.amount)));
-  }
-  
-  const transportationTransactions = transactions.filter(transaction => transaction.category === 'transportation');
-  if(!isEmpty(transportationTransactions)) {
-  transportationPercent = parseInt(100/(currentBudget.totalIncome/transportationTransactions.reduce((a, b) => a.amount + b.amount)));
+  if (!isEmpty(transactions)) {
+    const housingTransactions = transactions.filter(transaction => transaction.category === 'Housing');
+    if (!isEmpty(housingTransactions)) {
+      housingAmount = housingTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+    }
+
+    const transportationTransactions = transactions.filter(transaction => transaction.category === 'Transportation');
+    if (!isEmpty(transportationTransactions)) {
+      transportationAmount = transportationTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+    }
+
+    const expensesTransactions = transactions.filter(transaction => transaction.category === 'Expenses');
+    if (!isEmpty(expensesTransactions)) {
+      expensesAmount = expensesTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+    }
+
+    const debtTransactions = transactions.filter(transaction => transaction.category === 'Debt');
+    if (!isEmpty(debtTransactions)) {
+      debtAmount = debtTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+    }
+
+    const savingsTransactions = transactions.filter(transaction => transaction.category === 'Savings');
+    if (!isEmpty(savingsTransactions)) {
+      savingsAmount = savingsTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+    }
   }
 
-  const expensesTransactions = transactions.filter(transaction => transaction.category === 'expenses');
-  if(!isEmpty(expensesTransactions)) {
-  expensesPercent = parseInt(100/(currentBudget.totalIncome/expensesTransactions.reduce((a, b) => a.amount + b.amount)));
-  }
-
-  const debtTransactions = transactions.filter(transaction => transaction.category === 'debt');
-  if(!isEmpty(debtTransactions)) {
-  debtPercent = parseInt(100/(currentBudget.totalIncome/debtTransactions.reduce((a, b) => a.amount + b.amount)));
-  }
-
-  const savingsTransactions = transactions.filter(transaction => transaction.category === 'savings');
-  if(!isEmpty(savingsTransactions)) {
-  savingsPercent = parseInt(100/(currentBudget.totalIncome/savingsTransactions.reduce((a, b) => a.amount + b.amount)));
-  }
-}
-
-
-  function previousMonth() {
-    updateCurrentBudget(currentBudget + 1);
-  }
-
-  function nextMonth() {
-    updateCurrentBudget(currentBudget - 1);
-  }
+  let totalAmount = housingAmount + transportationAmount + expensesAmount + debtAmount + savingsAmount;
 
   return (
     <>
@@ -62,45 +56,48 @@ function Budget() {
           <NavBar />
           <div className='main-content'>
             <h1>Your Budgets</h1>
+            <MonthSelector />
+            <h2>Total Amount Spent</h2>
+            <h3>${totalAmount} of ${currentBudget.totalIncome}</h3>
             <Progress
               type="circle"
               strokeColor={{
                 '0%': '#108ee9',
                 '100%': '#87d068',
               }}
-              percent={100}
+              percent={Math.floor((totalAmount / currentBudget.totalIncome) * 100)}
             />
-            <div>
-            <Button onClick={() => previousMonth()}>Previous Month</Button>
-            <span>{currentMonth}</span>
-            <Button disabled={true} onClick={() => nextMonth()}>Next Month</Button>
-            </div>
             <List
               grid={{ column: 3 }}
               bordered={true}
               itemLayout='vertical'
               className='categories-list'
-              >
-                <List.Item>
-                  <Progress type="circle" strokeColor='#0070A9' percent={housingPercent} />
-                  <h2>Housing</h2>
-                </List.Item>
-                <List.Item>
-                  <Progress type="circle" strokeColor='#0070A9' percent={transportationPercent} />
-                  <h2>Transportation</h2>
-                </List.Item>
-                <List.Item>
-                  <Progress type="circle" strokeColor='#0070A9' percent={expensesPercent} />
-                  <h2>Expenses</h2>
-                </List.Item>
-                <List.Item>
-                  <Progress type="circle" strokeColor='#0070A9' percent={debtPercent} />
-                  <h2>Debt</h2>
-                </List.Item>
-                <List.Item>
-                  <Progress type="circle" strokeColor='#0070A9' percent={savingsPercent} />
-                  <h2>Savings</h2>
-                </List.Item>
+            >
+              <List.Item>
+                <h2>Housing({currentBudget.categories?.housing}%)</h2>
+                <h3>${housingAmount || 0} of ${(currentBudget.categories?.housing / 100) * currentBudget.totalIncome}</h3>
+                <Progress type="circle" strokeColor='#0070A9' percent={Math.floor(housingAmount / ((currentBudget.categories?.housing / 100) * currentBudget.totalIncome) * 100)} />
+              </List.Item>
+              <List.Item>
+                <h2>Transportation({currentBudget.categories?.transportation}%)</h2>
+                <h3>${transportationAmount || 0} of ${(currentBudget.categories?.transportation / 100) * currentBudget.totalIncome}</h3>
+                <Progress type="circle" strokeColor='#0070A9' percent={Math.floor(transportationAmount / ((currentBudget.categories?.transportation / 100) * currentBudget.totalIncome) * 100)} />
+              </List.Item>
+              <List.Item>
+                <h2>Expenses({currentBudget.categories?.expenses}%)</h2>
+                <h3>${expensesAmount || 0} of ${(currentBudget.categories?.expenses / 100) * currentBudget.totalIncome}</h3>
+                <Progress type="circle" strokeColor='#0070A9' percent={Math.floor(expensesAmount / ((currentBudget.categories?.expenses / 100) * currentBudget.totalIncome) * 100)} />
+              </List.Item>
+              <List.Item>
+                <h2>Debt({currentBudget.categories?.debt}%)</h2>
+                <h3>${debtAmount || 0} of ${(currentBudget.categories?.debt / 100) * currentBudget.totalIncome}</h3>
+                <Progress type="circle" strokeColor='#0070A9' percent={Math.floor(debtAmount / ((currentBudget.categories?.debt / 100) * currentBudget.totalIncome) * 100)} />
+              </List.Item>
+              <List.Item>
+                <h2>Savings({currentBudget.categories?.savings}%)</h2>
+                <h3>${savingsAmount || 0} of ${(currentBudget.categories?.savings / 100) * currentBudget.totalIncome} </h3>
+                <Progress type="circle" strokeColor='#0070A9' percent={Math.floor(savingsAmount / ((currentBudget.categories?.savings / 100) * currentBudget.totalIncome) * 100)} />
+              </List.Item>
             </List>
           </div>
         </>

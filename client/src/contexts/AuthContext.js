@@ -33,9 +33,8 @@ const AuthContextProvider = props => {
         updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: authUser.budgets });
         updateBudgets(authUser.budgets);
         updateCurrentBudget(authUser.budgets.find(budget => budget.month === currentMonth) || '');
-        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth).transactions || '');
-        if (!loggedIn) setLoggedIn(true);
-        setLoading(false);
+        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth)?.transactions || '');
+        updateLoggedIn(true);
       })
       .catch(err => {
         setLoading(false);
