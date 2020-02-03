@@ -65,10 +65,19 @@ function Budget() {
                 '0%': '#108ee9',
                 '100%': '#87d068',
               }}
+              width={300}
               percent={Math.floor((totalAmount / currentBudget.totalIncome) * 100)}
             />
             <List
-              grid={{ column: 3 }}
+              grid={{
+                gutter: 12,
+                xs: 1,
+                sm: 1,
+                md: 1,
+                lg: 3,
+                xl: 3,
+                xxl: 3,
+              }}
               bordered={true}
               itemLayout='vertical'
               className='categories-list'

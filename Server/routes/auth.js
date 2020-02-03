@@ -42,7 +42,8 @@ router.post("/", async (req, res) => {
 });
 
 router.delete('/', (req, res) => {
-  res.clearCookie('token', { httpOnly: true });
+  res.clearCookie('token', { maxAge: 86400, httpOnly: true });
+  console.log('token deleted');
 })
 
 module.exports = router;

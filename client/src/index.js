@@ -10,7 +10,7 @@ import AuthContextProvider from './contexts/AuthContext';
 
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
-import Profile from './pages/Profile';
+// import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 import Budget from './pages/Budget';
 import NewBudget from './pages/newBudget';
@@ -25,7 +25,7 @@ function App() {
             <NavContextProvider>
 
               <Route path="/" exact render={() => <LandingPage />} />
-              <Route path={`/users/:username`} exact render={() => <Profile />} />
+              {/* <Route path={`/users/:username`} exact render={() => <Profile />} /> */}
               <Route path="/login" exact render={() => <Login />} />
               <Route path="/signUp" exact render={() => <SignUp />} />
               <Route path={`/users/:username/budget`} exact render={() => <Budget />} />

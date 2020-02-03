@@ -7,7 +7,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import MonthSelector from '../components/monthSelector';
 
 function Transactions() {
-  const { user, updateUser, transactions, currentBudget, budgets, currentMonth, updateTransactions, updateCurrentBudget } = useContext(UserContext);
+  const { user, updateUser, transactions, currentBudget, budgets, currentMonth, updateTransactions } = useContext(UserContext);
   const { refresh, loading } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState('');
