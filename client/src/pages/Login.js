@@ -43,7 +43,7 @@ function Login() {
         updateUser({ username: authUser.username, _id: authUser._id, email: authUser.email, budgets: authUser.budgets });
         updateBudgets(authUser.budgets);
         updateCurrentBudget(authUser.budgets.find(budget => budget.month === currentMonth) || '');
-        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth)?.transactions || '');
+        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth)?.transactions.reverse() || '');
         updateLoggedIn(true);
       })
       .catch(err => {

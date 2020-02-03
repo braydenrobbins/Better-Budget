@@ -7,7 +7,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import MonthSelector from '../components/monthSelector';
 
 function Transactions() {
-  const { user, updateUser, transactions, currentBudget, budgets, currentMonth, updateTransactions } = useContext(UserContext);
+  const { user, updateUser, transactions, currentBudget, budgets, currentMonth, updateTransactions, updateCurrentBudget } = useContext(UserContext);
   const { refresh, loading } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
   const [category, setCategory] = useState('');
@@ -20,6 +20,7 @@ function Transactions() {
   }, []);
 
   function addTransaction() {
+    const newTransaction = { date, amount, merchant, category };
     const budgetsWithoutCurrentBudget = budgets.filter(budget => budget.month !== currentMonth);
     setVisible(false);
     const updatedUser = {
@@ -31,7 +32,7 @@ function Transactions() {
           ...currentBudget,
           transactions: [
             ...currentBudget.transactions,
-            { date, amount, merchant, category }
+            newTransaction
           ]
         }
       ]
@@ -48,7 +49,7 @@ function Transactions() {
       })
       .then(authUser => {
         updateUser(updatedUser);
-        updateTransactions(authUser.budgets.find(budget => budget.month === currentMonth)?.transactions || '');
+        updateTransactions([newTransaction, ...transactions]);
         message.success('Your transaction was added');
       })
       .catch(err => {

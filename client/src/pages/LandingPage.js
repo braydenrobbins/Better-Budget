@@ -17,7 +17,7 @@ function LandingPage() {
   return (
     <>
       {
-        loggedIn ? <Redirect push to={`/users/${user.username}/`} /> : ''
+        loggedIn ? <Redirect push to={`/users/${user.username}/budget`} /> : ''
       }
       <div className='landingPageBackground'>
         {loading ?

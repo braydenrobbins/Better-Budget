@@ -19,36 +19,34 @@ function Budget() {
     refresh();
   }, []);
 
-  console.log(transactions);
-
   if (!isEmpty(transactions)) {
     const housingTransactions = transactions.filter(transaction => transaction.category === 'Housing');
     if (!isEmpty(housingTransactions)) {
-      housingAmount = housingTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+      housingAmount = housingTransactions.map(transaction => transaction.amount).reduce((a, b) => Math.floor(a) + Math.floor(b));
     }
 
     const transportationTransactions = transactions.filter(transaction => transaction.category === 'Transportation');
     if (!isEmpty(transportationTransactions)) {
-      transportationAmount = transportationTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+      transportationAmount = transportationTransactions.map(transaction => transaction.amount).reduce((a, b) => Math.floor(a) + Math.floor(b));
     }
 
     const expensesTransactions = transactions.filter(transaction => transaction.category === 'Expenses');
     if (!isEmpty(expensesTransactions)) {
-      expensesAmount = expensesTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+      expensesAmount = expensesTransactions.map(transaction => transaction.amount).reduce((a, b) => Math.floor(a) + Math.floor(b));
     }
 
     const debtTransactions = transactions.filter(transaction => transaction.category === 'Debt');
     if (!isEmpty(debtTransactions)) {
-      debtAmount = debtTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+      debtAmount = debtTransactions.map(transaction => transaction.amount).reduce((a, b) => Math.floor(a) + Math.floor(b));
     }
 
     const savingsTransactions = transactions.filter(transaction => transaction.category === 'Savings');
     if (!isEmpty(savingsTransactions)) {
-      savingsAmount = savingsTransactions.map(transaction => transaction.amount).reduce((a, b) => a + b);
+      savingsAmount = savingsTransactions.map(transaction => transaction.amount).reduce((a, b) => Math.floor(a) + Math.floor(b));
     }
   }
 
-  let totalAmount = housingAmount + transportationAmount + expensesAmount + debtAmount + savingsAmount;
+  let totalAmount = Math.floor(housingAmount) + Math.floor(transportationAmount) + Math.floor(expensesAmount) + Math.floor(debtAmount) + Math.floor(savingsAmount);
 
   return (
     <>
