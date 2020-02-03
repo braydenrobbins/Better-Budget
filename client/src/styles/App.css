@@ -15,6 +15,11 @@
   margin: auto;
 }
 
+.month-selector .ant-select-selection-selected-value{
+  font-size: 2em;
+  margin: auto;
+}
+
 a:hover {
   color: #FFFDD0;
 }

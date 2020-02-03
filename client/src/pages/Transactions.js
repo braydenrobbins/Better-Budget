@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Form, Input, Button, InputNumber, Table, Modal, Radio, DatePicker, notification, message } from 'antd';
+import { Form, Input, Button, InputNumber, Table, Modal, Radio, DatePicker, message } from 'antd';
 import NavBar from '../components/navBar';
 import Config from '../config/app.local.config';
 import { UserContext } from '../contexts/UserContext';
 import { AuthContext } from '../contexts/AuthContext';
+import MonthSelector from '../components/monthSelector';
 
 function Transactions() {
   const { user, updateUser, transactions, currentBudget, budgets, currentMonth, updateTransactions } = useContext(UserContext);
@@ -102,11 +103,7 @@ function Transactions() {
           <NavBar />
           <div className='main-content'>
             <h1>Transactions</h1>
-            <div>
-              <Button>{`<`}</Button>
-              <span>{currentMonth}</span>
-              <Button>></Button>
-            </div>
+            <MonthSelector />
             <Button onClick={showModal} >Add Transaction</Button>
             <Table dataSource={transactions} columns={columns} />
             <Modal

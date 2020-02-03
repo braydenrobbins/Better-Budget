@@ -1,7 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import Config from '../config/app.local.config';
 import { UserContext } from '../contexts/UserContext';
-import moment from 'moment';
 
 export const AuthContext = createContext();
 

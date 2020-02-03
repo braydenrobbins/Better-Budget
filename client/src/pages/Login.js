@@ -77,7 +77,7 @@ function Login() {
           <Button htmlType="submit" className="login-form-button">
             Start Saving
             </Button>
-          {loggedIn ? <Redirect push to={isEmpty(user.budgets) ? `/users/${user.username}/newBudget` : `/users/${user.username}/budget`} /> : ''}
+          {loggedIn ? <Redirect push to={isEmpty(user.budgets) && !(currentBudget.month === currentMonth) ? `/users/${user.username}/newBudget` : `/users/${user.username}/budget`} /> : ''}
         </Form>
       </div>
     </>

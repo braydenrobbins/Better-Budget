@@ -19,6 +19,8 @@ function Budget() {
     refresh();
   }, []);
 
+  console.log(transactions);
+
   if (!isEmpty(transactions)) {
     const housingTransactions = transactions.filter(transaction => transaction.category === 'Housing');
     if (!isEmpty(housingTransactions)) {
